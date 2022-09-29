@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"name": "Discussion",
+			"path": "."
+		},
+		{
+			"name": "leetcode",
+			"path": "../../leetcode"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.ejs": "html",
+			"iostream": "cpp"
+		}
+	}
+}
