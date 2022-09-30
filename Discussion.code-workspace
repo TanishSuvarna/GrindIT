@@ -1,18 +1,21 @@
 {
 	"folders": [
 		{
-			"name": "Discussion",
 			"path": "."
 		},
 		{
 			"name": "leetcode",
 			"path": "../../leetcode"
+		},
+		{
+			"path": "../reactApp"
 		}
 	],
 	"settings": {
 		"files.associations": {
 			"*.ejs": "html",
 			"iostream": "cpp"
-		}
+		},
+		"git.ignoreLimitWarning": true
 	}
 }

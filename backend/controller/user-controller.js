@@ -1,10 +1,11 @@
 import user from "../models/user";
- export const getAllUsers = async (req,res,next)=>{
+export const getAllUsers = async (req,res,next)=>{
 	let users;
 	try{
 		users = await user.find();
 	}catch(err){ 
-		console.log(err);}
+		console.log(err);
+	}
 	if(!users){
 		return res.status(404).json({message:"No Users found"});
 	}
@@ -12,10 +13,9 @@ import user from "../models/user";
 		return res.status(200).json({users});
 	}
 }
-  
 export const signup = async (req,res,next)=>{
 	
-	const {name,email,password} = req.body;
+	const {name,email,password,leetcodeId,phoneNumber,hackerRankId,codeNinjaId} = req.body;
 	let userExists;
 	try{
 		userExists = await user.findOne({email});
@@ -26,7 +26,7 @@ export const signup = async (req,res,next)=>{
 		return res.status(400).json({message:"User Already Exists"});
 	}
 	else{
-		const newUser =  new user({name,email,password,userBlog:[]});
+		const newUser =  new user({name,email,password,leetcodeId,phoneNumber,hackerRankId,codeNinjaId,userBlog:[]});
 		try{
 			await newUser.save();
 		}catch(err){
@@ -54,3 +54,27 @@ export const signup = async (req,res,next)=>{
 		return console.log(err);
 	 }
   }
+
+  ////
+//   const getData= gql`
+//  query userProblemSolved($username:String!){
+//       matchedUser(username:$username) {
+//             problemsSolvedBeatsStats 
+//             { 
+//                 difficulty
+//                     percentage
+//                           }
+//                           submitStatsGlobal {
+//                                 acSubmissionNum {
+//                                     difficulty 
+//                                     count
+//                                         }
+//                                        }
+//                                      }
+//                                   }`;
+//   const getUserData =async(username) =>{
+// 	const graphQLClient = new GraphQLClient('https://leetcode.com/graphql') 
+// 	const results = await graphQLClient.request(getData,{username}).catch((err)=>console.log(err));
+// 	const data =await  results.matchedUser.submitStatsGlobal.acSubmissionNum;
+// 	return data; 
+//  }

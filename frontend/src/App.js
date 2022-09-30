@@ -6,15 +6,17 @@ import BlogsDetail from "./components/BlogSDetail";
 import AddBlog from "./components/AddBlog";
 import UserBlog from "./components/UserBlog";
 import React from "react"
+import { useSelector } from "react-redux";
 import { Route , Routes } from "react-router";
 import PrivateRoutes from "./utils/privateRoutes";
 const App =  () => {
-  const [isSignedUp, setisSignedUp] = React.useState(false);
+  const [isSignUp, setisSignUp] = React.useState(false);
   const [isAddBlog, setisAddBlog] = React.useState(false);
+  const isLoggedIn = useSelector((state) =>  state.isLoggedIn);
   return <React.Fragment>
-    <header>
-      <Header setisSignedUp={setisSignedUp} isSignedUp ={isSignedUp} isAddBlog = {isAddBlog} setisAddBlog ={setisAddBlog}/>
-    </header>
+    {isLoggedIn && <header>
+      <Header setisSignUp={setisSignUp} isSignUp ={isSignUp} isAddBlog = {isAddBlog} setisAddBlog ={setisAddBlog}/>
+    </header>}
     <main>
       <Routes>
         <Route element = {<PrivateRoutes/>}>
@@ -23,7 +25,7 @@ const App =  () => {
           <Route path="/myBlogs/:id" element ={<BlogsDetail setisAddBlog ={setisAddBlog}/>}/>
           <Route path="/blogs/add" element ={<AddBlog isAddBlog = {isAddBlog} setisAddBlog ={setisAddBlog}/>}/>
         </Route>
-        <Route path="/auth" element ={<Auth setisSignedUp={setisSignedUp} isSignedUp ={isSignedUp}/>}/>
+        <Route path="/auth" element ={<Auth setisSignUp={setisSignUp} isSignUp ={isSignUp}/>}/>
       </Routes>
     </main>
     </React.Fragment>

@@ -16,6 +16,21 @@ const user = new Schema({
         required:true,
         minlength :6
     },
+    phoneNumber:{
+        type:Number,
+        required:true,
+        length:10
+    },
+    leetcodeId:{
+        type:String,
+    },
+    hackerRankId:{
+        type:String,
+       
+    },
+    codeNinjaId:{
+        type:String,
+    },
     userBlog:[{
         type:mongoose.Types.ObjectId,
         ref:"blogs",
