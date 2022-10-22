@@ -1,0 +1,127 @@
+:root{
+  
+    --dark-blue : #02204c;
+    --medium-blue : #03386d;
+    --light-blue: #045c97;
+    --ligher-blue: #6497b1;
+    --lightes-blue:#b4cee2 ;
+
+
+    --lighest-grey: #eeeeee;
+    --lighter-grey: #aeaeae;	
+    --light-grey: #909090;	
+    --medium-grey: #535353;	
+    --dark-grey: #414141;	
+    
+
+}
+
+
+*,*::after,*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Jost', sans-serif;
+}
+.add_reminder_container{
+    height: 1000px;
+    width: auto;
+    background-color: var(--medium-grey);
+    display: flex;
+    padding: 60px;
+    justify-content: center;
+}
+.reminder_img{
+    background-image: url(../utils/Images/Reminder.jpg);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+
+    min-width:  700px;
+    min-height:  700px;
+}
+
+.add_reminder_wrapper{
+    height: 700px;
+    width: 700px;
+    min-height: auto;
+    min-width:  auto;
+    background-color:white;
+    display: flex;
+    flex-direction: row;
+}
+
+.add_reminder_form{
+    padding: 20px;
+    color: rgb(171, 171, 171);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+.add_reminder_form h1{
+    font-size: 2.6rem;
+    margin: 10px;
+}
+.add_reminder_form_wrapper{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+ 
+}
+.add_reminder_form_wrapper button{
+    padding: 10px;
+    width: 200px;
+    font-size: 1.1rem;
+    background-color: #188ddb;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    transition: background-color 0.5s ease;
+}
+
+.add_reminder_form_wrapper button:hover{
+   
+    background-color: #59bdff;
+    
+}
+.add_reminder_form_wrapper label{
+    padding: 40px;
+    padding-left: 0%;
+    font-size: 1.3rem;
+    padding-bottom: 10px;
+}
+
+.add_reminder_form_wrapper select{
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    background-color: var(--lighest-grey);
+    border: none;
+   
+}
+.add_reminder_form_wrapper select option{
+    padding: 10px;
+    
+    font-size: 1.1rem;
+    background-color: var(--lighest-grey);
+    border: none;
+   
+}
+
+.add_reminder_form_wrapper input {
+    background-color: var(--lighest-grey);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    border: none;
+    
+}
+.add_reminder_btn_div{
+    display: flex;
+    align-items: center;
+    padding: 40px;
+    justify-content: center;
+}
