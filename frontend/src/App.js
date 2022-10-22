@@ -26,6 +26,7 @@ const App =  () => {
           <Route path="/blogs/add" element ={<AddBlog isAddBlog = {isAddBlog} setisAddBlog ={setisAddBlog}/>}/>
         </Route>
         <Route path="/auth" element ={<Auth setisSignUp={setisSignUp} isSignUp ={isSignUp}/>}/>
+        <Route path="/" element ={<Auth setisSignUp={setisSignUp} isSignUp ={isSignUp}/>}/>
       </Routes>
     </main>
     </React.Fragment>

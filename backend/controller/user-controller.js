@@ -26,7 +26,7 @@ export const signup = async (req,res,next)=>{
 		return res.status(400).json({message:"User Already Exists"});
 	}
 	else{
-		const newUser =  new user({name,email,password,leetcodeId,phoneNumber,hackerRankId,codeNinjaId,userBlog:[]});
+		const newUser =  new user({name,email,password,leetcodeId,phoneNumber,hackerRankId,codeNinjaId,userBlog:[],userComments:[]});
 		try{
 			await newUser.save();
 		}catch(err){

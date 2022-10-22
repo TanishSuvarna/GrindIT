@@ -14,6 +14,13 @@ const blogs = new Schema({
         type:mongoose.Types.ObjectId,
         ref:"User",
         required:true,
-    }
+    },
+    userComments:[
+        {
+            type:mongoose.Types.ObjectId,
+            ref:"comments",
+            required:true
+        }
+    ]
 })
 export default mongoose.model("blogs" , blogs); 

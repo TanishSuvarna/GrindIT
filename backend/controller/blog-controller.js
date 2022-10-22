@@ -1,3 +1,4 @@
+import { error } from "console";
 import mongoose from "mongoose";
 import blogs from "../models/blogs";
 import user from "../models/user";
@@ -27,14 +28,20 @@ export const addBlog = async (req,res,next)=>{
     if(!existingUser){
         return res.status(400).json({message:"No User Found"});
     }
-    const newBlog = new blogs({title,description,ourUser});
+    const newBlog = new blogs({title,description,ourUser,userComments:[]});
         try{
             const session = await mongoose.startSession();
+            try{
             session.startTransaction();
-             newBlog.save(session);
+             newBlog.save({session});
             existingUser.userBlog.push(newBlog);
-             existingUser.save(session);
-            await session.commitTransaction()
+             existingUser.save({session});
+           
+        }catch(err){
+            console.log(err);
+            await session.abortTransaction();
+        }
+            await session.commitTransaction();
         }catch(err){
             return res.status(400).json({message:err});
         }
@@ -53,14 +60,15 @@ export const updateBlog = async (req,res,next) => {
     if(!newBlog){
         return res.status(500).json({message:"Can't Update The Blog Please Try Again Later"});
     }
-    console.log(newBlog);
     return res.status(200).json({newBlog});
 }
 export const blogById = async(req,res,next) =>{
     const blogId = req.params.id;
     let showBlog;
     try{
-        showBlog =await blogs.findById(blogId);
+        showBlog =await blogs.findById(blogId).populate({path :"userComments" , populate :{
+            path : "ourUser"
+        }});
     }catch(err){
         return console.log(err);
     }

@@ -36,6 +36,13 @@ const user = new Schema({
         ref:"blogs",
         required:true
     }
+    ],
+    userComments:[
+        {
+            type:mongoose.Types.ObjectId,
+            ref:"comments",
+            required:true
+        }
     ]
 })
 export default mongoose.model("User" , user);
