@@ -30,16 +30,16 @@ export const postComment = async (req,res,next) =>{
     }catch(err){
         return res.status(400).json({message:err})
     }
-    return res.status(200).json({newComment});
+    const allData = await newComment.populate("ourUser");
+    return res.status(200).json({allData});
 }
 
 export const editComment = async (req,res,next) => {
     const commentId = req.params.id;
-    console.log(commentId);
-    const {description} = req.body;
+    const {commentData}= req.body;
     let newComment;
     try{
-        newComment = await comments.findByIdAndUpdate(commentId,{description});
+        newComment = await comments.findByIdAndUpdate(commentId,{description : commentData});
     }catch(err){
         return console.log(err);
     }
@@ -52,7 +52,7 @@ export const deleteComment = async(req,res,next) =>{
     const commentId = req.params.id;
     let getComment;
     try{
-        getComment = await comments.findByIdDelete(commentId).populate("ourUser").populate("ourBlog");
+        getComment = await comments.findByIdAndDelete(commentId).populate("ourUser").populate("ourBlog");
         getComment.ourUser.userComments.pull(commentId);
         getComment.ourBlog.userComments.pull(commentId);
         await getComment.ourUser.save();

@@ -1,5 +1,4 @@
 import React from 'react'
-import Prompt from 'react'
 import { TextField,Button,CardContent,Typography,Card,CardActionArea } from '@mui/material';
 import { useLocation ,useNavigate } from 'react-router-dom';
 import List from '@mui/material/List';
@@ -8,12 +7,14 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box'
 import axios from 'axios';
+import AddComment from './addComment';
 const BlogSDetail = ({setisAddBlog}) => {
   setisAddBlog(true);
   const [getUserBlog, setgetUserBlog] = React.useState();
   const [getBlogComments,setgetBlogComments] = React.useState([]);
   const [commentData,setCommentData] = React.useState("");
   const [isDisabled,setisDisabled] = React.useState(true);
+  const [editComment , seteditComment] = React.useState();
   const navigate = useNavigate();
   const Location = useLocation();
   const sendRequest = async () => {
@@ -41,9 +42,24 @@ const BlogSDetail = ({setisAddBlog}) => {
     e.preventDefault();
     const input = {description: commentData , ourUser : localStorage.userId , ourBlog:Location.state.id.id}
     const res= await axios.post(`http://localhost:5000/api/blog/comments`,input).catch((err) => console.log(err));
-    const newComment = await res.data.newComment;
-    console.log(newComment);
+    const newComment = await res.data.allData;
     setgetBlogComments([...getBlogComments, newComment]);
+  }
+  const handleSubmitUpdate = async (e) =>{
+    e.preventDefault();
+    const res= await axios.put(`http://localhost:5000/api/blog/comments/${editComment}`,{commentData}).catch((err) => console.log(err));
+    sendRequest().then(async (data) =>{
+      const res = await data.showBlog.userComments;
+      console.log(res);
+       setgetBlogComments(res);
+    });
+    seteditComment("");
+    setCommentData("")
+  }
+  const sendDelRequest =  async (id) => {
+    const res = await axios.delete(`http://localhost:5000/api/blog/comments/${id}`);
+    setgetBlogComments((getBlogComments) => getBlogComments.filter((comment) => comment._id !== id))
+    return res.data;
   }
   return (
     <>
@@ -69,28 +85,19 @@ const BlogSDetail = ({setisAddBlog}) => {
 </Box>
 </ListItem>
 </List>
-<form onSubmit={handleSubmit}>
-<Box display = "flex"
-        boxShadow = "10px 10px 20px #ccc"
-         flexDirection = "column" 
-         alignItems = "center"
-         background ="white"
-        justifyContent ="center"
-        margin= {5}
-        padding = {5}
-        marginTop ={3}
-        borderRadius ={5}>
-          <TextField fullWidth minRows ={5} maxRows ={Infinity}  name ="commentData" onChange ={handleIt} value ={commentData}  label="Add A Comment" multiline variant="outlined" placeholder='Add A Comment'  />
-          {<Button type="submit" disabled ={isDisabled} sx = {{borderRadius : 5}} variant="contained">Post!</Button>}
-</Box>
-</form>
+<AddComment 
+isDisabled ={isDisabled} 
+commentData = {commentData}
+handleIt ={handleIt} 
+handleSubmit ={handleSubmit}/>
 </>
 }
     {
       getBlogComments && <>
          {
           getBlogComments.map((comment) => (
-            <Card  sx={{ 
+         
+          <Card  sx={{ 
         minWidth: 275 ,
         margin:5,
         boxShadow : "5px 5px 10px #ccc",
@@ -99,17 +106,25 @@ const BlogSDetail = ({setisAddBlog}) => {
         },
         }}>
         <CardContent>
+          {editComment !== comment._id ? <>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-           From - {comment.ourUser.name}
+            From - {comment.ourUser.name}
           </Typography>
           <Typography variant="h6" component="div">
             {comment.description}
           </Typography>
+          </>:
+          <AddComment isDisabled ={isDisabled} 
+                     commentData = {commentData}
+                     handleIt ={handleIt} 
+                    handleSubmit ={handleSubmitUpdate}
+                    />}
           </CardContent>
-          {(localStorage.userId === comment.ourUser._id) && <><CardActionArea sx ={{display : "inline" , maxWidth : 75 , marginBottom : 2}}>
+          {(editComment !== comment._id)&& (localStorage.userId === comment.ourUser._id) && <><CardActionArea sx ={{display : "inline" , maxWidth : 75 , marginBottom : 2}}>
             <Button  onClick= {(e) =>{
-              e.stopPropagation()
-              navigate("/blogs/add" , {state:{description:{} , title:{} ,id:{}}});
+              e.stopPropagation();
+              seteditComment(comment._id);
+              setCommentData(comment.description);
               }}>
                 Edit
             </Button>
@@ -118,15 +133,18 @@ const BlogSDetail = ({setisAddBlog}) => {
             <Button  onClick= {(e) =>{
               e.stopPropagation();
               const answer = window.confirm("You Sure You Want To Delete The Post");
+              
               if(answer){
-                sendRequest().then((message) => <Prompt message={message}/>);
+                sendDelRequest(comment._id);
               }
               }}>
                 Delete
             </Button>
         </CardActionArea></>
         }
-          </Card>
+        
+          </Card>    
+           
           ))
          }
       </>

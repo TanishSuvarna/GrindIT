@@ -5,6 +5,7 @@ import axios from 'axios'
 const AddBlog = ({setisAddBlog}) => {
   const Location = useLocation();
   setisAddBlog(true);
+  console.log(Location.state)
   const userId = localStorage.getItem("userId");
   const ourUser = localStorage.getItem("Name");
   let descriptionEdit;

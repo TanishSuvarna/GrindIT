@@ -26,12 +26,12 @@
 
 
 
-body{
+.login_body{
     
     background: #3399ff;
    
 }
-.main_container{
+.login_main_container{
     height: 100vh;
     display: flex;
     align-items: center;
@@ -140,7 +140,7 @@ body{
 
 /* footer */
 
-.footer{
+.login_footer{
 
   background-color: var(--lightes-blue) ;
   height: 380px;
@@ -153,7 +153,7 @@ body{
 
 
 }
-.footer_logo{
+.login_footer_logo{
 
   width: 390px;
   height: 90px;
@@ -163,7 +163,7 @@ body{
 
 
 }
-.footer_wrapper{
+.login_footer_wrapper{
   color: var(--dark-blue);
   flex-direction: column;
   width: 800px;
@@ -178,7 +178,7 @@ body{
 
 }
 
-.socials img{
+.login_footer_socials img{
 
   width: 50px;
   height: 50px;
@@ -186,7 +186,7 @@ body{
   margin: 20px;
 
 }
-.copyright{
+.login_footer_copyright{
 
 
   background-color: var(--dark-blue);

@@ -1,8 +1,10 @@
+
 import  express  from "express";
 import mongoose from "mongoose";
 import blogRouter from "./routes/blog-routes";
 import router from "./routes/user-routes";
 import commentsRouter from "./routes/comments-routes";
+import reminderRouter from "./routes/reminder-routes";
 import cors from 'cors';
 mongoose.connect('mongodb://127.0.0.1:27017/discuss' ,{ useNewUrlParser: true,
 useUnifiedTopology: true});
@@ -12,6 +14,7 @@ app.use(express.json());
 app.use("/api/user",router);
 app.use("/api/blog",blogRouter);
 app.use("/api/blog/comments",commentsRouter);
+app.use("/api/reminders", reminderRouter);
 const db = mongoose.connection;
 db.on('error' , console.error.bind(console,'connection error:'));
 db.once('open' , function(){
