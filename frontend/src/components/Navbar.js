@@ -44,6 +44,11 @@ export default function Navbar() {
                   MyPosts
                 </Link>
               </li>
+              <li className="nav_bar_links">
+                <Link to="/blogs/add" href="" state={{ add: "true" }}>
+                  Add Blog
+                </Link>
+              </li>
             </ul>
           </div>
           <div className="nav_bar_div_3">
