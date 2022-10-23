@@ -43,6 +43,15 @@ const user = new Schema({
             ref:"comments",
             required:true
         }
+    ],
+    reminders: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Reminder",
+        required: true,
+      },
     ]
 })
-export default mongoose.model("User" , user);
+
+  
+export default mongoose.model("User", user);

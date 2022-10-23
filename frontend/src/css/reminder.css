@@ -1,0 +1,101 @@
+
+:root{
+  
+    --dark-blue : #02204c;
+    --medium-blue : #03386d;
+    --light-blue: #045c97;
+    --ligher-blue: #6497b1;
+    --lightes-blue:#b4cee2 ;
+
+    --lighest-grey: #eeeeee;
+    --lighter-grey: #aeaeae;	
+    --light-grey: #909090;	
+    --medium-grey: #535353;	
+    --dark-grey: #414141;	
+    
+
+
+}
+
+
+*,*::after,*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Jost', sans-serif;
+}
+
+
+
+.reminder_main_container{
+    display: flex;
+     background-color: var(--medium-grey);
+    flex-direction: row;
+    border-radius: 8px;
+}
+
+.reminder-app{
+    height: 800px;
+    background-color: var(--dark-grey);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.reminder_update_btn{
+    height: auto;
+    margin: 20px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.reminder_update_btn button{
+    height: 40px;
+    margin: 4px;
+    font-size: 1.1rem;
+    border: none;
+    width: auto;
+    border-radius: 7px;
+    transition: background-color 0.4s ease;
+}
+.reminder_update_btn button:hover{
+    cursor: pointer;
+    background-color: #aaaaaa;
+}
+.main-container{
+    
+    width: auto;
+    height: 700px;
+    background-color: var(--light-grey);
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    border-radius: 12px;
+}
+.reminder{
+    color: white;
+    border-radius: 9px;
+    padding: 20px;
+    width:850px;
+    height: auto ;
+    background-color: var(--medium-grey);
+
+}
+
+.add-reminder-btn{
+    border: none;
+    border-radius: 9px;
+    color: white;
+    background-color: var(--medium-grey);
+    width: 130px;
+    height: 40px;
+    transition:  background-color 0.7s ease;
+    
+}
+.add-reminder-btn:hover{
+    cursor: pointer;
+    background-color: var(--lighter-grey);
+    color: var(--dark-blue);
+}

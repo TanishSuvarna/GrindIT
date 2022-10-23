@@ -1,0 +1,165 @@
+:root{
+  
+    --dark-blue : #02204c;
+    --medium-blue : #03386d;
+    --light-blue: #045c97;
+    --ligher-blue: #6497b1;
+    --lightes-blue:#b4cee2 ;
+
+
+    --lighest-grey: #eeeeee;
+    --lighter-grey: #aeaeae;	
+    --light-grey: #909090;	
+    --medium-grey: #535353;	
+    --dark-grey: #414141;	
+    
+
+}
+
+
+*,*::after,*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Jost', sans-serif;
+}
+
+.mainsec_container{
+    color: var(--lighest-grey);
+    background-color: var(--dark-grey);
+    width: auto;
+    height: auto;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+   
+
+}
+.profile_div{
+    background-color: var(--medium-grey);
+    min-height: 620px;
+    height: auto;
+    width: 300px;
+    margin: 20px;
+    border-radius: 8px;
+}
+.profile_box{
+    
+    background-color: var(--dark-grey);
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    align-items: center;
+    font-size: 1.3rem;
+    margin: 10px;
+    height: 200px;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+
+.profile_img{
+
+    height: 100px;
+    width: 100px;
+
+}
+.mainsec_container_wrapper{
+    width: 70vw;
+    
+    min-height: 80vh;
+    height: auto;
+}
+
+.status_diff label{ 
+    margin: 10px;
+
+
+
+
+}
+.status_div{
+    background-color: var(--medium-grey);
+    
+    max-height: auto;
+    min-height: 300px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px;
+    margin-left: 0px;
+}
+.status_box{
+
+    background-color: var(--dark-grey);
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    margin: 10px;
+    height: 250px;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+.status_nums{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+
+}
+.status_nums div{
+    margin: 15px;
+
+}
+.reminder_div{
+    background-color:var(--medium-grey);
+    max-height: auto;
+    min-height: 300px;
+    margin: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0px;
+    justify-content: flex-start;
+}
+
+.reminder_box{
+
+    background-color: var(--dark-grey);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 1.1rem;
+    padding: 20px;
+    margin: 10px;
+    margin-bottom: 0px;
+    border-radius: 10px;
+
+
+}
+
+
+.status_circle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--font-color);
+    border: solid 2px rgb(0, 194, 0);
+    border-radius: 50px;
+    width: 50px;
+    height: 50px;
+    clip-path: circle(50% at 50% 50%);
+  }

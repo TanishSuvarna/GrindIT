@@ -1,0 +1,133 @@
+:root{
+    --dark-grey: #2b2b2b;
+    --medium-grey: #373636;
+    --light-grey: hsl(0, 0%, 83%);
+    --light-green: #63cd32;
+    --medium-green: hsl(103, 71%, 42%);
+    --dark-green: #399e2e;
+    --font-color: rgb(209, 209, 209);
+  
+  
+    --dark-blue : #02204c;
+    --medium-blue : #03386d;
+    --light-blue: #045c97;
+    --ligher-blue: #6497b1;
+    --lightes-blue:#b4cee2 ;
+  
+    
+  
+    --lighest-grey: #eeeeee;
+    --lighter-grey: #aeaeae;	
+    --light-grey: #909090;	
+    --medium-grey: #535353;	
+    --dark-grey: #414141;	
+    
+  
+  
+  }
+  
+  
+  *{
+    margin: 0;
+    padding: 0;
+    font-family: 'Jost', sans-serif;
+  }
+  
+  
+  .section_1{
+   
+    background-color: var( --medium-grey);
+    width: 100%;
+ 
+  }
+  
+  .nav_bar{
+    background-color:var( --medium-grey);
+    width: 100%;
+    height: 70px;
+    display: flex;
+    font-family: 'Jost', sans-serif;
+    
+    
+  }
+  .nav_wrapper{   
+    position: relative;
+  
+    width: 90%;
+    left: 5%;
+    right: 5%;
+  
+  
+  
+  }
+  
+  .logo_div{
+    max-height: auto;
+    max-width: auto;
+    
+  }
+  .logo{
+    padding: 10px;
+    width: 220px;
+    
+  }
+  
+  .nav_bar_div_2{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+  }
+  
+  .nav_bar_div_3{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .nav_bar_links{
+    font-size: 1.5rem;
+    display: inline;
+    text-decoration: none;
+    list-style: none;
+    padding: 10px;
+    
+    
+  
+  }
+  .nav_bar_links a{
+    
+    color: var(--font-color);
+    text-decoration: none;
+    
+    
+  
+  }
+  .nav_bar_links a:hover{
+    
+    color: white;
+   
+    
+    
+  
+  }
+  
+  .nav_logout_btn{
+    background-color: var(--dark-grey);
+    border: none;
+    color: white;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+  }
+  .nav_logout_btn:hover{
+    background-color: rgb(46, 46, 46);
+  }
+  
+  .profile_pic{
+    height: 50px;
+    width: 50px;
+    padding: 10px;
+  }
+  
