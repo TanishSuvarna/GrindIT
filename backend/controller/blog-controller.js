@@ -4,9 +4,10 @@ import mongoose from "mongoose";
 import blogs from "../models/blogs";
 import user from "../models/user";
 export const getAllBlogs = async (req , res , next) =>{
+    const offset = req.params.offset;
     let allBlogs;
     try{
-        allBlogs = await blogs.find().populate("ourUser");
+        allBlogs = await blogs.find().limit(5).skip(offset).populate("ourUser");
     }catch(err){
         return console.log(err);
     }
@@ -64,10 +65,10 @@ export const updateBlog = async (req,res,next) => {
     return res.status(200).json({newBlog});
 }
 export const blogById = async(req,res,next) =>{
-    const blogId = req.params.id;
+    const {id,offset} = req.params;
     let showBlog;
     try{
-        showBlog =await blogs.findById(blogId).populate({path :"userComments" , populate :{
+        showBlog =await blogs.findById(id).populate({path :"userComments" , limit :5 , skip : offset, populate :{
             path : "ourUser"
         }});
     }catch(err){
@@ -100,15 +101,15 @@ export const deleteBlogById =async (req,res,next)=>{
 }
 
 export const getAllBlogByUserId = async (req,res,next)=>{
-    const userid = req.params.id;
+    const {id,offset} = req.params;
     let allBlogs;
     try{
-       allBlogs =  await user.findById(userid).populate("userBlog"); 
+    allBlogs =  await user.findById(id).populate({path:"userBlog" , options:{limit :5 , skip :offset}}); 
     }catch(err){
         console.log(err);
     }
     if (!allBlogs) {
         return res.status(404).json({ message: "No Blog Found" });
       }
-      return res.status(200).json({message:allBlogs.userBlog});
+      return res.status(200).json({userBlogs:allBlogs.userBlog});
     };

@@ -5,7 +5,6 @@ import axios from 'axios'
 const AddBlog = ({setisAddBlog}) => {
   const Location = useLocation();
   setisAddBlog(true);
-  console.log(Location.state)
   const userId = localStorage.getItem("userId");
   const ourUser = localStorage.getItem("Name");
   let descriptionEdit;
@@ -86,7 +85,7 @@ else{
           <Typography marginTop ={2}  marginBottom ={2} marginRight ="auto"  variant ="h5">Title</Typography>
           <TextField fullWidth name ="title" onChange ={handleIt} value ={allInputs.title } placeholder='Title'label="Title" multiline rows={1} variant="outlined" />
           <Typography marginRight ="auto" marginTop ={2}  marginBottom ={2}  variant ="h5">Description</Typography>
-          <TextField  fullWidth name ="description" onChange ={handleIt} value ={allInputs.description}  label="Description" multiline rows={10} variant="outlined" placeholder='description'  maxRows={Infinity}/>
+          <TextField  fullWidth name ="description" onChange ={handleIt} value ={allInputs.description}  label="Description" multiline rows={10} variant="outlined" placeholder='description'/>
           <Button type="submit" sx = {{borderRadius : 5}} variant="contained">Post!</Button>
         </Box>
       </form>

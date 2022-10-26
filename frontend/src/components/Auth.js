@@ -19,7 +19,7 @@ const Auth = ({isSignUp,setisSignUp}) => {
 
   });
   const handleIt =(e)=>{
-    setallInputs((prevState) => ({
+    setallInputs((prevState) => ( {
       ...prevState,
       [e.target.name] : e.target.value
     })
@@ -37,6 +37,7 @@ const Auth = ({isSignUp,setisSignUp}) => {
     let res;
     try{
      res = await axios.post(`http://localhost:5000/api/user/${type}` ,user)
+     console.log(res.data);
   }
     catch(err){
       setallInputs({
@@ -55,7 +56,6 @@ const Auth = ({isSignUp,setisSignUp}) => {
    localStorage.setItem("Name" , data.newUser.name);
    dispatch(authActions.login());
    navigate("/blogs");
-   console.log(data)
    return data;
   }
   const handleSubmit = (e)=>{

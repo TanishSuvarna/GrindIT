@@ -39,7 +39,8 @@ export const editComment = async (req,res,next) => {
     const {commentData}= req.body;
     let newComment;
     try{
-        newComment = await comments.findByIdAndUpdate(commentId,{description : commentData});
+        await comments.findByIdAndUpdate(commentId,{description : commentData});
+        newComment = await comments.findById(commentId);
     }catch(err){
         return console.log(err);
     }

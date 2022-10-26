@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "agenda": "^4.4.0",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "graphql": "^16.6.0",
