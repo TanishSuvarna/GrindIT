@@ -6,15 +6,16 @@ import { CardActionArea } from '@mui/material';
 import {Typography, Button} from "@mui/material"
 import axios from 'axios';
 import Prompt from 'react'
-  export default function BasicCard({id,title,description,ourUser,edit}) {
+  const BasicCard= React.forwardRef(({id,title,description,ourUser,edit,setgetBlogs} ,ref) => {
     const navigate = useNavigate();
     const sendRequest = async() => {
-      const res = await axios.delete(`http://localhost:5000/api/blog/${id}`).catch((err)=>{console.log(err)})
-      const message = await res.message;
-      return message;
+    await axios.delete(`http://localhost:5000/api/blog/${id}`).catch((err)=>{console.log(err)})
+    setgetBlogs(prevBlog => {
+      return [...prevBlog.filter(blog => blog._id !== id)]
+    })
     }
     return (
-      <Card onClick = {()=> navigate("/myBlogs/:id",
+      <Card ref = {ref} onClick = {()=> navigate("/myBlogs/:id",
       {state:{
         description:{description},
         ourUser:{ourUser},
@@ -62,4 +63,6 @@ import Prompt from 'react'
         </CardContent>
       </Card>
     );
-  }
+  })
+
+  export default BasicCard
