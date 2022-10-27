@@ -1,73 +1,91 @@
-import React from 'react'
-import Login from './login'
-import Register from './register'
-import axios from 'axios'
-import { useDispatch } from 'react-redux'
-import { authActions } from '../store'
-import { useNavigate } from 'react-router-dom'
-const Auth = ({isSignUp,setisSignUp}) => {
+import React from "react";
+import Login from "./login";
+import Register from "./register";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store";
+import { useNavigate } from "react-router-dom";
+import LandingPage from "./LandingPage";
+const Auth = ({ isSignUp, setisSignUp }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const [allInputs, setallInputs] = React.useState({
-    name:"",
-    email:"",
-    password:"",
-    leetCodeId:"",
-    hackerRankId:"",
-    codeNinjaId :"",
-    phoneNumber:""
-
+    name: "",
+    email: "",
+    password: "",
+    leetCodeId: "",
+    hackerRankId: "",
+    codeNinjaId: "",
+    phoneNumber: "",
   });
-  const handleIt =(e)=>{
-    setallInputs((prevState) => ( {
+  const handleIt = (e) => {
+    setallInputs((prevState) => ({
       ...prevState,
-      [e.target.name] : e.target.value
-    })
-    )
-  }
-  const sendRequest =async(type)=>{
-    const user = {name : allInputs.name ,
-       email:allInputs.email ,
-       password:allInputs.password,
-       leetcodeId : allInputs.leetCodeId,
-       hackerRankId:allInputs.hackerRankId,
-       codeNinjaId:allInputs.codeNinjaId,
-       phoneNumber:allInputs.phoneNumber
-      }
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const sendRequest = async (type) => {
+    const user = {
+      name: allInputs.name,
+      email: allInputs.email,
+      password: allInputs.password,
+      leetcodeId: allInputs.leetCodeId,
+      hackerRankId: allInputs.hackerRankId,
+      codeNinjaId: allInputs.codeNinjaId,
+      phoneNumber: allInputs.phoneNumber,
+    };
     let res;
-    try{
-     res = await axios.post(`http://localhost:5000/api/user/${type}` ,user)
-     console.log(res.data);
-  }
-    catch(err){
+
+    try {
+      res = await axios.post(`http://localhost:5000/api/user/${type}`, user);
+      console.log(res.data);
+    } catch (err) {
       setallInputs({
-        name:"",
-    email:"",
-    password:"",
-    leetCodeId:"",
-    hackerRankId:"",
-    codeNinjaId :"",
-    phoneNumber:""
-      })
+        name: "",
+        email: "",
+        password: "",
+        leetCodeId: "",
+        hackerRankId: "",
+        codeNinjaId: "",
+        phoneNumber: "",
+      });
+      alert(err.response.data.message);
       return console.log(err);
     }
-   const data = await res.data;
-   localStorage.setItem("userId" , data.newUser._id);
-   localStorage.setItem("Name" , data.newUser.name);
-   dispatch(authActions.login());
-   navigate("/blogs");
-   return data;
-  }
-  const handleSubmit = (e)=>{
+    const data = await res.data;
+    localStorage.setItem("userId", data.newUser._id);
+    localStorage.setItem("Name", data.newUser.name);
+    dispatch(authActions.login());
+    navigate("/blogs");
+    return data;
+  };
+  const handleSubmit = (e) => {
     e.preventDefault();
-    isSignUp? sendRequest("signup"):sendRequest("login");
-  }
+    isSignUp ? sendRequest("signup") : sendRequest("login");
+  };
   return (
     <div>
-      {isSignUp ?
-      <Register setisSignUp = {setisSignUp} handleSubmit = {handleSubmit} setallInputs = {setallInputs} allInputs ={allInputs} handleIt ={handleIt}/>
-      :<Login setisSignUp = {setisSignUp} handleSubmit = {handleSubmit} setallInputs = {setallInputs}  allInputs ={allInputs} handleIt ={handleIt}/>}
-{/*      
+      {isSignUp ? (
+        <>
+          <Register
+            setisSignUp={setisSignUp}
+            handleSubmit={handleSubmit}
+            setallInputs={setallInputs}
+            allInputs={allInputs}
+            handleIt={handleIt}
+          />
+        </>
+      ) : (
+        <Login
+          setisSignUp={setisSignUp}
+          handleSubmit={handleSubmit}
+          setallInputs={setallInputs}
+          allInputs={allInputs}
+          handleIt={handleIt}
+        />
+      )}
+      {/*      
 <form onSubmit ={handleSubmit}>
     <Box 
     maxWidth ={400}
@@ -97,9 +115,7 @@ const Auth = ({isSignUp,setisSignUp}) => {
     </Box>
   </form> */}
     </div>
-  )
-}
+  );
+};
 
 export default Auth;
-
-

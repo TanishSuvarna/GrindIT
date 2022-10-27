@@ -18,7 +18,11 @@ const reminder = new Schema({
     type: String,
     required: true,
   },
-
+  
+  time: {
+    type: String,
+    required: true,
+  },
   ourUser: {
     type: mongoose.Types.ObjectId,
     ref: "User",

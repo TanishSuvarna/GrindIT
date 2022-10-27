@@ -2,14 +2,17 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import "../css/AddReminder.css";
 
 const AddRemider = () => {
   const navigate = useNavigate();
+
   const [inputs, setinputs] = useState({
     title: "",
-    difficulty: "",
+    difficulty: "EASY",
     noofques: "",
+    time: "",
     topic: "",
   });
 
@@ -26,6 +29,7 @@ const AddRemider = () => {
         difficulty: inputs.difficulty,
         noofques: inputs.noofques,
         topic: inputs.topic,
+        time: inputs.time,
         ourUser: localStorage.getItem("userId"),
       })
       .catch((err) => console.log(err));
@@ -62,9 +66,9 @@ const AddRemider = () => {
                 onChange={handleChange}
                 value={inputs.difficulty}
               >
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
+                <option value="EASY">Easy</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HARD">Hard</option>
               </select>
               <label htmlFor="">No of Questions</label>
               <input
@@ -72,6 +76,14 @@ const AddRemider = () => {
                 onChange={handleChange}
                 value={inputs.noofques}
                 type="Number"
+              />
+              <label htmlFor="">Set Time</label>
+
+              <input
+                type="time"
+                name="time"
+                onChange={handleChange}
+                value={inputs.time}
               />
               <label htmlFor="">Topic</label>
               <input
@@ -81,6 +93,7 @@ const AddRemider = () => {
                 type="text"
                 placeholder="Enter a topic "
               />
+
               <div className="add_reminder_btn_div">
                 <button>Add reminder</button>
               </div>

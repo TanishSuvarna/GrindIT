@@ -30,6 +30,7 @@ const ReminderDetails = () => {
         title: data.Reminder.title,
         difficulty: data.Reminder.difficulty,
         noofques: data.Reminder.noofques,
+        time: data.Reminder.time,
         topic: data.Reminder.topic,
       });
     });
@@ -41,6 +42,7 @@ const ReminderDetails = () => {
         title: inputs.title,
         difficulty: inputs.difficulty,
         noofques: inputs.noofques,
+        time: inputs.time,
         topic: inputs.topic,
       })
       .catch((err) => console.log(err));
@@ -84,9 +86,9 @@ const ReminderDetails = () => {
                   onChange={handleChange}
                   value={inputs.difficulty}
                 >
-                  <option value="Easy">Easy</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Hard">Hard</option>
+                  <option value="EASY">EASY</option>
+                  <option value="MEDIUM">MEDIUM</option>
+                  <option value="HARD">HARD</option>
                 </select>
                 <label htmlFor="">No of Questions</label>
                 <input
@@ -94,6 +96,14 @@ const ReminderDetails = () => {
                   onChange={handleChange}
                   value={inputs.noofques}
                   type="Number"
+                />
+                <label htmlFor="">Set Time</label>
+
+                <input
+                  type="time"
+                  name="time"
+                  onChange={handleChange}
+                  value={inputs.time}
                 />
                 <label htmlFor="">Topic</label>
                 <input

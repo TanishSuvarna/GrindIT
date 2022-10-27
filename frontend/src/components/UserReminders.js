@@ -2,7 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/reminder.css";
-const UserReminders = ({ id, ourUser, title, difficulty, noofques, topic }) => {
+const UserReminders = ({
+  id,
+  ourUser,
+  title,
+  difficulty,
+  noofques,
+  time,
+  topic,
+}) => {
   const navigate = useNavigate();
   const handleEdit = (e) => {
     navigate(`myReminders/${id}`);
@@ -39,6 +47,10 @@ const UserReminders = ({ id, ourUser, title, difficulty, noofques, topic }) => {
           <br></br>
           <label>
             No of Questions: <span className="reminder-name">{noofques}</span>
+          </label>
+          <br></br>
+          <label>
+            Time set: <span className="reminder-name">{time}</span>
           </label>
           <br></br>
           <label>

@@ -1,5 +1,7 @@
 import user from "../models/user";
-import { request, GraphQLClient ,gql } from 'graphql-request'
+import emailValidator from "deep-email-validator";
+import { request, GraphQLClient, gql } from "graphql-request";
+
 export const getAllUsers = async (req, res, next) => {
   let users;
   try {
@@ -32,28 +34,43 @@ export const signup = async (req, res, next) => {
   if (userExists) {
     return res.status(400).json({ message: "User Already Exists" });
   } else {
-    const newUser = new user({
-      name,
-      email,
-      password,
-      leetcodeId,
-      phoneNumber,
-      hackerRankId,
-      codeNinjaId,
-      reminders: [],
-      userBlog: [],
-    });
-    try {
-      await newUser.save();
-    } catch (err) {
-      return console.log(err);
+    async function isEmailValid(email) {
+      return emailValidator.validate(email);
     }
-    return res.status(201).json({ newUser });
+
+    const { valid, reason, validators } = await isEmailValid(email);
+
+    if (valid) {
+      const newUser = new user({
+        name,
+        email,
+        password,
+        leetcodeId,
+        phoneNumber,
+        hackerRankId,
+        codeNinjaId,
+        reminders: [],
+        userBlog: [],
+      });
+
+      try {
+        await newUser.save();
+      } catch (err) {
+        return console.log(err);
+      }
+    } else {
+      return res.status(400).send({
+        message: "Please provide a valid email address.",
+        reason: validators[reason].reason,
+      });
+    }
+
+    return res.status(201).json({ message: "User Created" });
   }
 };
 
 export const login = async (req, res, next) => {
-  const { email, password,leetcodeId } = req.body;
+  const { email, password, leetcodeId } = req.body;
   let newUser;
   try {
     newUser = await user.findOne({ email }).populate("userBlog");
@@ -61,8 +78,7 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ message: "User Not Found" });
     }
     if (newUser && newUser.password === password) {
-      const allLeet = await getUserData("Tanish21");
-      return res.status(201).json({ newUser,allLeet });
+      return res.status(201).json({ newUser });
     } else {
       return res.status(400).json({ message: "Wrong Password" });
     }
@@ -70,29 +86,3 @@ export const login = async (req, res, next) => {
     return console.log(err);
   }
 };
-
-const getData= gql`
-query userProblemSolved($username:String!){
-     matchedUser(username:$username) {
-           problemsSolvedBeatsStats
-           {
-
-               difficulty
-                   percentage
-                         }
-                         submitStatsGlobal {
-                               acSubmissionNum {
-                                   difficulty 
-                                   count
-                                       }
-                                      }
-                                    }
-                                 }`;
- const getUserData =async(username) =>{
- const graphQLClient = new GraphQLClient('https://leetcode.com/graphql') 
- const results = await graphQLClient.request(getData,{username : username}).catch((err)=>console.log(err));
- const data =await  results.matchedUser.submitStatsGlobal.acSubmissionNum;
- return data; 
-}
-
-
