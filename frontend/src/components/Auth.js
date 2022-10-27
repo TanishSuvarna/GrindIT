@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
 import { useNavigate } from "react-router-dom";
+import LandingPage from "./LandingPage";
 const Auth = ({ isSignUp, setisSignUp }) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Auth = ({ isSignUp, setisSignUp }) => {
       [e.target.name]: e.target.value,
     }));
   };
+
   const sendRequest = async (type) => {
     const user = {
       name: allInputs.name,
@@ -34,6 +36,7 @@ const Auth = ({ isSignUp, setisSignUp }) => {
       phoneNumber: allInputs.phoneNumber,
     };
     let res;
+
     try {
       res = await axios.post(`http://localhost:5000/api/user/${type}`, user);
     } catch (err) {
@@ -46,6 +49,7 @@ const Auth = ({ isSignUp, setisSignUp }) => {
         codeNinjaId: "",
         phoneNumber: "",
       });
+      alert(err.response.data.message);
       return console.log(err);
     }
     const data = await res.data;
@@ -63,13 +67,15 @@ const Auth = ({ isSignUp, setisSignUp }) => {
   return (
     <div>
       {isSignUp ? (
-        <Register
-          setisSignUp={setisSignUp}
-          handleSubmit={handleSubmit}
-          setallInputs={setallInputs}
-          allInputs={allInputs}
-          handleIt={handleIt}
-        />
+        <>
+          <Register
+            setisSignUp={setisSignUp}
+            handleSubmit={handleSubmit}
+            setallInputs={setallInputs}
+            allInputs={allInputs}
+            handleIt={handleIt}
+          />
+        </>
       ) : (
         <Login
           setisSignUp={setisSignUp}

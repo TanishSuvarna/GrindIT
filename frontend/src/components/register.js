@@ -5,6 +5,10 @@ import facebook from "../utils/socialLogo/facebook.png";
 import instagram from "../utils/socialLogo/instagram.png";
 import twitter from "../utils/socialLogo/twitter.png";
 import youtube from "../utils/socialLogo/youtube.png";
+import "react-phone-input-2/lib/style.css";
+import PhoneInput from "react-phone-input-2";
+
+console.log(PhoneInput);
 const register = ({
   setisSignUp,
   handleSubmit,
@@ -34,8 +38,10 @@ const register = ({
                     />
                   </div>
                 </div>
+                <PhoneInput />
                 <div class="register_box_container">
                   <label for="">Email</label>
+
                   <div class="register_box">
                     <input
                       class="inputs"
@@ -50,6 +56,7 @@ const register = ({
                 </div>
                 <div class="register_box_container">
                   <label for="">Password</label>
+
                   <div class="register_box">
                     <input
                       class="inputs"
@@ -67,7 +74,7 @@ const register = ({
                   <div class="register_box">
                     <input
                       class="inputs"
-                      type="text"
+                      type="password"
                       value={allInputs.password}
                       placeholder="Renter password"
                       name="none"
@@ -80,6 +87,7 @@ const register = ({
               <div class="right_form">
                 <div class="register_box_container">
                   <label for="">Phone Number</label>
+
                   <div class="register_box">
                     <input
                       class="inputs"

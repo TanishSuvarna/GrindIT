@@ -25,7 +25,7 @@
 }
 
 .mainsec_container{
-    color: var(--lighest-grey);
+    color: white;
     background-color: var(--dark-grey);
     width: auto;
     height: auto;

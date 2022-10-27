@@ -15,6 +15,7 @@ import ProfilePage from "./components/ProfilePage";
 import Navbar from "./components/Navbar";
 import AddRemider from "./components/AddReminders";
 import { authActions } from "./store";
+import LandingPage from "./components/LandingPage";
 const App = () => {
   const dispatch = useDispatch();
   const [isSignUp, setisSignUp] = React.useState(false);
@@ -44,10 +45,16 @@ const App = () => {
           <Route element={<PrivateRoutes />} />
 
           {!isLoggedIn ? (
-            <Route
-              path="/auth"
-              element={<Auth setisSignUp={setisSignUp} isSignUp={isSignUp} />}
-            />
+            <>
+              <Route
+                path="/auth"
+                element={<Auth setisSignUp={setisSignUp} isSignUp={isSignUp} />}
+              />
+              <Route
+                path="/"
+                element={<LandingPage setisSignUp={setisSignUp} />}
+              />
+            </>
           ) : (
             <>
               <Route path="/myProfile" element={<ProfilePage />} />

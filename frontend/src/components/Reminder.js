@@ -43,6 +43,7 @@ const Reminder = () => {
                 title={reminder.title}
                 difficulty={reminder.difficulty}
                 noofques={reminder.noofques}
+                time={reminder.time}
                 topic={reminder.topic}
               />
             ))}

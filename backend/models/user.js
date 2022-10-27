@@ -6,6 +6,10 @@ const user = new Schema({
     type: String,
     required: true,
   },
+  isRemindedToday: {
+    type: Boolean,
+    default: false,
+  },
   email: {
     type: String,
     required: true,
