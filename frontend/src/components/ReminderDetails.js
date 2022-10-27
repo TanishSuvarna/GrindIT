@@ -1,7 +1,6 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 
 const ReminderDetails = () => {
@@ -9,7 +8,6 @@ const ReminderDetails = () => {
   const [reminder, setReminder] = useState();
   const id = useParams().id;
   const [inputs, setinputs] = useState({});
-
   const handleChange = (e) => {
     setinputs((prevState) => ({
       ...prevState,
@@ -47,8 +45,6 @@ const ReminderDetails = () => {
     const data = await res.data;
     return data;
   };
-  console.log(reminder);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);

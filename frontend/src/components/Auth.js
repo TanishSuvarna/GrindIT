@@ -2,16 +2,27 @@ import React from 'react'
 import Login from './login'
 import Register from './register'
 import axios from 'axios'
+import { useState , useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { authActions } from '../store'
 import { useNavigate } from 'react-router-dom'
 const Auth = ({isSignUp,setisSignUp}) => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const [validLength, setValidLength] = useState(null);
+const [hasNumber, setHasNumber] = useState(null);
+const [upperCase, setUpperCase] = useState(null);
+const [lowerCase, setLowerCase] = useState(null);
+const [specialChar, setSpecialChar] = useState(null);
+const [eVal , seteVal] = useState(null);
+const [match, setMatch] = useState(null);
+const [isDisabled,setisDisabled] = useState(false);
+
   const [allInputs, setallInputs] = React.useState({
     name:"",
     email:"",
     password:"",
+    confirmPass:"",
     leetCodeId:"",
     hackerRankId:"",
     codeNinjaId :"",
@@ -25,6 +36,20 @@ const Auth = ({isSignUp,setisSignUp}) => {
     })
     )
   }
+   useEffect(() => {
+
+    setValidLength(allInputs.password.length >= 8 ? true : false);
+    setUpperCase(allInputs.password.toLowerCase() !== allInputs.password);
+    setLowerCase(allInputs.password.toUpperCase() !== allInputs.password);
+    setHasNumber(/\d/.test(allInputs.password));
+    setMatch(allInputs.password && allInputs.password === allInputs.confirmPass);
+    setSpecialChar(/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(allInputs.password));
+    seteVal(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(allInputs.email))
+    setisDisabled(validLength && hasNumber && upperCase && lowerCase && specialChar && eVal && match && (allInputs.name.length > 0) && (allInputs.phoneNumber.length === 10))
+    }, [allInputs.password, allInputs.confirmPass ,allInputs.email,allInputs.name,allInputs.phoneNumber]);
+    useEffect (() =>{
+      setisDisabled(validLength && hasNumber && upperCase && lowerCase && specialChar && eVal && match && (allInputs.name.length > 0) && (allInputs.phoneNumber.length === 10))
+    },[validLength , upperCase,lowerCase,specialChar,eval,match,hasNumber])
   const sendRequest =async(type)=>{
     const user = {name : allInputs.name ,
        email:allInputs.email ,
@@ -37,23 +62,26 @@ const Auth = ({isSignUp,setisSignUp}) => {
     let res;
     try{
      res = await axios.post(`http://localhost:5000/api/user/${type}` ,user)
-     console.log(res.data);
   }
     catch(err){
       setallInputs({
         name:"",
     email:"",
     password:"",
+    confirmPass:"",
     leetCodeId:"",
     hackerRankId:"",
     codeNinjaId :"",
     phoneNumber:""
       })
+      alert("Email Already Exits");
       return console.log(err);
     }
    const data = await res.data;
    localStorage.setItem("userId" , data.newUser._id);
    localStorage.setItem("Name" , data.newUser.name);
+   if(data.newUser.leetcodeId) localStorage.setItem("leetCodeId" , data.newUser.leetcodeId);
+   else localStorage.setItem("leetCodeId" , 'null');
    dispatch(authActions.login());
    navigate("/blogs");
    return data;
@@ -65,37 +93,8 @@ const Auth = ({isSignUp,setisSignUp}) => {
   return (
     <div>
       {isSignUp ?
-      <Register setisSignUp = {setisSignUp} handleSubmit = {handleSubmit} setallInputs = {setallInputs} allInputs ={allInputs} handleIt ={handleIt}/>
-      :<Login setisSignUp = {setisSignUp} handleSubmit = {handleSubmit} setallInputs = {setallInputs}  allInputs ={allInputs} handleIt ={handleIt}/>}
-{/*      
-<form onSubmit ={handleSubmit}>
-    <Box 
-    maxWidth ={400}
-    display = "flex"
-    boxShadow = "10px 10px 20px #ccc"
-     flexDirection = "column" 
-     alignItems = "center"
-    justifyContent ="center"
-    margin = "auto"
-    padding = {5}
-    marginTop ={5}
-    borderRadius ={5}
-   >
-      {isSignedUp?
-      <><Typography variant ="h4">Register</Typography>
-      <TextField  label ="Name" name ="name"onChange ={handleIt}value ={allInputs.name } placeholder='Name' margin ="normal"/></>:
-      <Typography variant ="h4">Login</Typography>
-      }
-      <TextField  type={'email'} label ="Email" name ="email" onChange ={handleIt} value ={allInputs.email}  placeholder='Email'margin ="normal"/>
-      <TextField  type ={'password'} label ="Password" name ="password" onChange ={handleIt} value ={allInputs.password} placeholder='Password' margin ="normal"/>
-      {!isSignedUp?
-      <><Button type="submit" sx = {{borderRadius : 5}} variant="contained">Log In</Button>
-      <Button onClick ={() => setisSignedUp(true)}>Get Yourself Registered</Button></>:
-      <><Button type="submit" sx = {{borderRadius : 5}} variant="contained">Register</Button>
-      <Button onClick ={() => setisSignedUp(false)}>Login User</Button></>
-    }
-    </Box>
-  </form> */}
+      <Register eVal = {eVal} match = {match} isDisabled = {isDisabled} specialChar = {specialChar} hasNumber = {hasNumber} upperCase = {upperCase} lowerCase = {lowerCase}validLength = {validLength} setisSignUp = {setisSignUp} handleSubmit = {handleSubmit} setallInputs = {setallInputs} allInputs ={allInputs} handleIt ={handleIt}/>
+      :<Login  setisSignUp = {setisSignUp} handleSubmit = {handleSubmit} setallInputs = {setallInputs}  allInputs ={allInputs} handleIt ={handleIt}/>}
     </div>
   )
 }

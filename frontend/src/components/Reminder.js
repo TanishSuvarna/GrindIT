@@ -17,7 +17,7 @@ const Reminder = () => {
   useEffect(() => {
     sendRequest().then((data) => setreminders( data.message));
   }, []);
-  console.log(reminders);
+
 
   // const [allreminders, setallreminders] = useState();
   // const sendRequest = async () => {

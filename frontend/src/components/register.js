@@ -11,7 +11,17 @@ const register = ({
   handleIt,
   setAllInputs,
   allInputs,
+  validLength,
+    hasNumber,
+    upperCase,
+    lowerCase,
+    match,
+    specialChar,
+    eVal,
+    isDisabled
 }) => {
+  
+  
   return (
     <div>
       <div class="main_container">
@@ -21,7 +31,7 @@ const register = ({
             <div class="container_form">
               <div class="left_form">
                 <div class="register_box_container">
-                  <label for="">Name</label>
+                  <label for="">Name*</label>
                   <div class="register_box">
                     <input
                       class="inputs"
@@ -33,9 +43,10 @@ const register = ({
                       id=""
                     />
                   </div>
+                  <div style={{fontSize: '12px' , color:"red"}}>{(allInputs.name.length === 0) && "Please Enter Your Name"}</div>
                 </div>
                 <div class="register_box_container">
-                  <label for="">Email</label>
+                  <label for="">Email*</label>
                   <div class="register_box">
                     <input
                       class="inputs"
@@ -47,9 +58,10 @@ const register = ({
                       id=""
                     />
                   </div>
+                  <div style={{fontSize: '12px' , color:"red"}}>{(!eVal && allInputs.email.length>0) && "Enter A Valid Email"}</div>
                 </div>
                 <div class="register_box_container">
-                  <label for="">Password</label>
+                  <label for="">Password*</label>
                   <div class="register_box">
                     <input
                       class="inputs"
@@ -61,25 +73,30 @@ const register = ({
                       id=""
                     />
                   </div>
+                   {!validLength ? <div style={{fontSize: '12px' , color:"red"}}>{allInputs.password.length> 0 && "Minimum Length Of The Password Should Be 8"}</div>:
+                  <div style={{fontSize: '12px' , color:"red"}}>{( !hasNumber ||  !upperCase || !lowerCase || !specialChar ) && "Password Must Include uppercase, lowercase, number, special character"}</div>}
                 </div>
                 <div class="register_box_container">
-                  <label for="">Confirm Password</label>
+                  <label for="">Confirm Password*</label>
                   <div class="register_box">
                     <input
                       class="inputs"
-                      type="text"
-                      value={allInputs.password}
+                      type="password"
+                      value={allInputs.confirmPass}
+                      onChange={handleIt}
                       placeholder="Renter password"
-                      name="none"
+                      name="confirmPass"
                       id=""
                     />
                   </div>
+                 
+                  <div style={{fontSize: '12px' , color:"red"}}>{(allInputs.password.length > 0 && !match) && "Password Don't Match"}</div>
                 </div>
               </div>
               <div class="division"></div>
               <div class="right_form">
                 <div class="register_box_container">
-                  <label for="">Phone Number</label>
+                  <label for="">Phone Number*</label>
                   <div class="register_box">
                     <input
                       class="inputs"
@@ -91,6 +108,7 @@ const register = ({
                       id=""
                     />
                   </div>
+                  <div style={{fontSize: '12px' , color:"red"}}>{(allInputs.phoneNumber.length >0 &&  allInputs.phoneNumber.length !== 10)&& "Please Enter A Valid Phone Number"}</div>
                 </div>
                 <div class="register_box_container">
                   <label for="">Leetcode Username</label>
@@ -136,7 +154,8 @@ const register = ({
                 </div>
               </div>
             </div>
-            <button id="submit_btn">Signup</button>
+            <button disabled = {!isDisabled} id="submit_btn">Signup</button>
+            <div style={{fontSize: '12px' , color:"red"}}>{!isDisabled && "Please Enter The Required Details Before Submitting"}</div>
             <p style={{ color: "white" }}>
               Already have an account?{" "}
               <span

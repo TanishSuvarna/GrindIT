@@ -22,7 +22,6 @@ const Blogs = ({setisAddBlog}) => {
     },
     [loading , empty],
   )
- 
   return (
     <div>
     {getBlogs && 

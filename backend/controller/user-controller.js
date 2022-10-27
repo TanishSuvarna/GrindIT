@@ -61,8 +61,7 @@ export const login = async (req, res, next) => {
       return res.status(400).json({ message: "User Not Found" });
     }
     if (newUser && newUser.password === password) {
-      const allLeet = await getUserData("Tanish21");
-      return res.status(201).json({ newUser,allLeet });
+      return res.status(201).json({ newUser });
     } else {
       return res.status(400).json({ message: "Wrong Password" });
     }
@@ -88,11 +87,20 @@ query userProblemSolved($username:String!){
                                       }
                                     }
                                  }`;
- const getUserData =async(username) =>{
- const graphQLClient = new GraphQLClient('https://leetcode.com/graphql') 
- const results = await graphQLClient.request(getData,{username : username}).catch((err)=>console.log(err));
- const data =await  results.matchedUser.submitStatsGlobal.acSubmissionNum;
- return data; 
+ export const getUserData =async(req,res,next) =>{
+  const username = req.params.leetcodeId;
+  let allLeet;
+  try{
+  const graphQLClient = new GraphQLClient('https://leetcode.com/graphql') 
+  await graphQLClient.request(getData,{username : username}).then((results) => {
+  allLeet =results.matchedUser.submitStatsGlobal.acSubmissionNum;
+})}
+catch(e){
+  return res.status(400).json({message:"Enter Correct Leetcode Id"})
 }
+ return res.status(200).json({allLeet});
+ }
+
+
 
 
