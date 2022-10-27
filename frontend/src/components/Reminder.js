@@ -15,7 +15,7 @@ const Reminder = () => {
     return data;
   };
   useEffect(() => {
-    sendRequest().then((data) => setreminders(data.message));
+    sendRequest().then((data) => setreminders( data.message));
   }, []);
   console.log(reminders);
 

@@ -75,7 +75,7 @@ const App = () => {
               <Route
                 path="/blogs/add"
                 element={
-                  <AddBlog isAddBlog={isAddBlog} setisAddBlog={setisAddBlog} />
+                  <AddBlog isAddBlog={isAddBlog} setisAddBlog={setisAddBlog}/>
                 }
               />
               <Route path="/myReminders" element={<UserReminders />} />

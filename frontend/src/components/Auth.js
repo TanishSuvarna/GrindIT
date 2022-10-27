@@ -39,6 +39,7 @@ const Auth = ({ isSignUp, setisSignUp }) => {
 
     try {
       res = await axios.post(`http://localhost:5000/api/user/${type}`, user);
+      console.log(res.data);
     } catch (err) {
       setallInputs({
         name: "",
@@ -56,8 +57,7 @@ const Auth = ({ isSignUp, setisSignUp }) => {
     localStorage.setItem("userId", data.newUser._id);
     localStorage.setItem("Name", data.newUser.name);
     dispatch(authActions.login());
-    navigate("/myProfile");
-    console.log(data);
+    navigate("/blogs");
     return data;
   };
   const handleSubmit = (e) => {

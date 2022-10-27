@@ -2,13 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"name": "leetcode",
-			"path": "../../leetcode"
-		},
-		{
-			"path": "../reactApp"
 		}
 	],
 	"settings": {

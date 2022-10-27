@@ -246,8 +246,10 @@ export const deleteReminder = async (req, res, next) => {
   let Reminder;
   try {
     Reminder = await reminder.findByIdAndRemove(id).populate("ourUser");
+    console.log(Reminder);
     await Reminder.ourUser.reminders.pull(Reminder);
     await Reminder.ourUser.save();
+    console.log(Reminder);
   } catch (err) {
     console.log(err);
   }
