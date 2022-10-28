@@ -6,7 +6,9 @@ import UserReminders from "./UserReminders";
 import { Link } from "react-router-dom";
 const Reminder = () => {
   const id = localStorage.getItem("userId");
-  const [reminders, setreminders] = useState();
+  const [isDisabled,setisDisabled] = useState(false);
+  const [reminders, setreminders] = useState( 
+  );
   const sendRequest = async () => {
     const res = await axios
       .get(`http://localhost:5000/api/reminders/user/${id}`)

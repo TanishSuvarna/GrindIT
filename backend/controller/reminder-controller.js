@@ -114,15 +114,14 @@ setInterval(() => {
             let x = Math.random() * (questions.length - 1);
             let q = questions[Math.floor(x)];
 
-            console.log(q);
-            arr.push(`http://leetcode.com/problems/${q}` + "\n");
-            console.log(arr.slice(-1));
+
+            arr.push(`http://leetcode.com/problems/${q} ` + "\n");
           }
           console.log(currentUser.isRemindedToday);
           console.log(currentUser);
           var mailOptions = {
             from: "sudocode1234@gmail.com",
-            to: `pratham27900@gmail.com`,
+            to: `${currentUser.email}`,
             subject: `${element.noofques}`,
             text: `${arr}`,
           };

@@ -1,13 +1,13 @@
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
 import "../css/AddReminder.css";
 
 const AddRemider = () => {
   const navigate = useNavigate();
-
+  const [isDisabled,setisDisabled] = useState(false);
   const [inputs, setinputs] = useState({
     title: "",
     difficulty: "EASY",
@@ -15,7 +15,10 @@ const AddRemider = () => {
     time: "",
     topic: "",
   });
-
+  useEffect(() => {
+    setisDisabled(inputs.title.length > 0 && inputs.noofques.length>0 && inputs.topic.length > 0 && inputs.time.length>0);
+  }, [inputs.title,inputs.noofques,inputs.time,inputs.topic])
+  
   const handleChange = (e) => {
     setinputs((prevState) => ({
       ...prevState,
@@ -93,10 +96,9 @@ const AddRemider = () => {
                 type="text"
                 placeholder="Enter a topic "
               />
-
-              <div className="add_reminder_btn_div">
-                <button>Add reminder</button>
-              </div>
+              <div className="add_reminder_btn_div" >
+                <button disabled = {!isDisabled}>Add reminder</button>
+                </div>
             </div>
           </form>
         </div>

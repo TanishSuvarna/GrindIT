@@ -26,6 +26,7 @@ export const signup = async (req, res, next) => {
     codeNinjaId,
   } = req.body;
   let userExists;
+  let newUser;
   try {
     userExists = await user.findOne({ email });
   } catch (err) {
@@ -35,13 +36,11 @@ export const signup = async (req, res, next) => {
     return res.status(400).json({ message: "User Already Exists" });
   } else {
     async function isEmailValid(email) {
-      return emailValidator.validate(email);
+      return emailValidator.validate({email:email , sender : 'stanish.mi@gmail.com'});
     }
-
-    const { valid, reason, validators } = await isEmailValid(email);
-
-    if (valid) {
-      const newUser = new user({
+    
+    if (true) {
+       newUser = new user({
         name,
         email,
         password,
@@ -65,7 +64,7 @@ export const signup = async (req, res, next) => {
       });
     }
 
-    return res.status(201).json({ message: "User Created" });
+    return res.status(201).json({ newUser , message: "User Created" });
   }
 };
 

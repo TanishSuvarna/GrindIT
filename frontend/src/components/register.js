@@ -49,7 +49,6 @@ const register = ({
                   </div>
                   <div style={{fontSize: '12px' , color:"red"}}>{(allInputs.name.length === 0) && "Please Enter Your Name"}</div>
                 </div>
-                <PhoneInput />
                 <div class="register_box_container">
                   <label for="">Email*</label>
                   <div class="register_box">
