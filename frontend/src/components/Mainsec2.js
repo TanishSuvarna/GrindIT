@@ -1,8 +1,26 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../css/mainsec2.css";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 import profilelogo from "../utils/Images/profile_login.png";
 export default function Mainsec2() {
+  const [questions, setquestions] = useState();
+  let id = localStorage.getItem("userId");
+  const fetchDetails = async () => {
+    const res = await axios(
+      `http://localhost:5000/api/user/questions/${id}`
+    ).catch((err) => console.log(err));
+    const data = await res.data;
+
+    return data;
+  };
+  useEffect(() => {
+    fetchDetails().then((data) => {
+      setquestions(data.message);
+    });
+  });
+
   return (
     <React.Fragment>
       <div className="mainsec_container">
@@ -55,22 +73,28 @@ export default function Mainsec2() {
             </div>
           </div>
           <div className="reminder_div">
-            <div className="reminder_box">
-              <label>Question 1</label>
-              <p>
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled i
-              </p>
+            <div>
+              <h1>Today's Reminders</h1>
             </div>
-            <div className="reminder_box">
-              <label>Question 1</label>
-              <p>
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled i
-              </p>
-            </div>
+            {questions &&
+              questions.map((ques, index) => (
+                <a
+                  className="question_link"
+                  href={ques}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <div className="reminder_box">
+                    <label>Question {index + 1}</label>
+                    <p>
+                      {ques
+                        .slice(29, ques.length + 1)
+                        .split("-")
+                        .join(" ")}
+                    </p>
+                  </div>
+                </a>
+              ))}
           </div>
         </div>
       </div>

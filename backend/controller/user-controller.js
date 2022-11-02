@@ -65,7 +65,7 @@ export const signup = async (req, res, next) => {
       });
     }
 
-    return res.status(201).json({ message: "User Created" });
+    return res.status(201).send({ message: "User Created" });
   }
 };
 
@@ -84,5 +84,50 @@ export const login = async (req, res, next) => {
     }
   } catch (err) {
     return console.log(err);
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  let userid = req.params.id;
+
+  let currentUser;
+  try {
+    currentUser = await user.findByIdAndDelete(userid);
+    if (!currentUser) {
+      return res.status(400).json({ message: "user not found" });
+    } else {
+      return res.status(201).json({ message: "user Deleted" });
+    }
+  } catch (err) {
+    return console.log(err);
+  }
+};
+
+export const updateUserReminder = async (req, res, next) => {
+  let userId = req.params.id;
+  try {
+    await user.findByIdAndUpdate(userId, { isRemindedToday: false });
+    if (!userId) {
+      return res.status(400).json({ message: "user not found" });
+    } else {
+      return res.status(201).json({ message: "user Reminded today changed" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getQuestionsByid = async (req, res, next) => {
+  let userId = req.params.id;
+  let currentUser;
+  try {
+    currentUser = await user.findById(userId);
+    if (!currentUser) {
+      return res.status(400).json({ message: "user not found" });
+    } else {
+      return res.status(201).json({ message: currentUser.todayQuestions });
+    }
+  } catch (err) {
+    console.log(err);
   }
 };

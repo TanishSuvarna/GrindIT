@@ -32,6 +32,7 @@
      background-color: var(--medium-grey);
     flex-direction: row;
     border-radius: 8px;
+    
 }
 
 .reminder-app{

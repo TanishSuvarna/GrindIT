@@ -38,7 +38,7 @@ const register = ({
                     />
                   </div>
                 </div>
-                <PhoneInput />
+
                 <div class="register_box_container">
                   <label for="">Email</label>
 

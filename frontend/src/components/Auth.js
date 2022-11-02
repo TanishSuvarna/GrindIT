@@ -39,6 +39,10 @@ const Auth = ({ isSignUp, setisSignUp }) => {
 
     try {
       res = await axios.post(`http://localhost:5000/api/user/${type}`, user);
+      if (type == "signup") {
+        alert(res.data.message);
+      }
+
       console.log(res.data);
     } catch (err) {
       setallInputs({
