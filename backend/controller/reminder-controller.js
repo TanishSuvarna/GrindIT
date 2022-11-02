@@ -131,7 +131,7 @@ setInterval(() => {
           console.log(currentUser);
           var mailOptions = {
             from: "sudocode1234@gmail.com",
-            to: `pratham27900@gmail.com`,
+            to: `${currentUser.email}`,
             subject: `${element.noofques}`,
             text: `${arr}`,
           };

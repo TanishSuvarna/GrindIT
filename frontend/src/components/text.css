@@ -1,0 +1,36 @@
+h3 span {
+    font-size: 22px;
+}
+h3 input.search-input {
+    width: 300px;
+    margin-left: auto;
+    float: right
+}
+.mt32 {
+    margin-top: 32px;
+}
+span.circle {
+background: rgb(209, 150, 40);
+border-radius: 50%;
+-moz-border-radius: 60%;
+-webkit-border-radius: 60%;
+color: black;
+display: inline-block;
+/* font-weight:inherit; */
+line-height: 20px;
+margin-right: 5px;
+text-align: center;
+width: 26px;
+border-color: aqua;
+}
+a.glow, a.glow:hover, a.glow:focus
+{
+text-decoration: none;
+color: #aaf;
+text-shadow: -1px 1px 8px #ffc, 1px -1px 8px #fff;
+-webkit-transition: 500ms linear 0s;
+-moz-transition: 500ms linear 0s;
+-o-transition: 500ms linear 0s;
+transition: 500ms linear 0s;
+outline: 0 none;
+}

@@ -26,6 +26,7 @@ export const signup = async (req, res, next) => {
     codeNinjaId,
   } = req.body;
   let userExists;
+  let newUser;
   try {
     userExists = await user.findOne({ email });
   } catch (err) {
@@ -35,13 +36,14 @@ export const signup = async (req, res, next) => {
     return res.status(400).json({ message: "User Already Exists" });
   } else {
     async function isEmailValid(email) {
-      return emailValidator.validate(email);
+      return emailValidator.validate({
+        email: email,
+        sender: "stanish.mi@gmail.com",
+      });
     }
 
-    const { valid, reason, validators } = await isEmailValid(email);
-
-    if (valid) {
-      const newUser = new user({
+    if (true) {
+      newUser = new user({
         name,
         email,
         password,
@@ -65,7 +67,7 @@ export const signup = async (req, res, next) => {
       });
     }
 
-    return res.status(201).send({ message: "User Created" });
+    return res.status(201).json({ newUser, message: "User Created" });
   }
 };
 
@@ -85,6 +87,38 @@ export const login = async (req, res, next) => {
   } catch (err) {
     return console.log(err);
   }
+};
+
+const getData = gql`
+  query userProblemSolved($username: String!) {
+    matchedUser(username: $username) {
+      problemsSolvedBeatsStats {
+        difficulty
+        percentage
+      }
+      submitStatsGlobal {
+        acSubmissionNum {
+          difficulty
+          count
+        }
+      }
+    }
+  }
+`;
+export const getUserData = async (req, res, next) => {
+  const username = req.params.leetcodeId;
+  let allLeet;
+  try {
+    const graphQLClient = new GraphQLClient("https://leetcode.com/graphql");
+    await graphQLClient
+      .request(getData, { username: username })
+      .then((results) => {
+        allLeet = results.matchedUser.submitStatsGlobal.acSubmissionNum;
+      });
+  } catch (e) {
+    return res.status(400).json({ message: "Enter Correct Leetcode Id" });
+  }
+  return res.status(200).json({ allLeet });
 };
 
 export const deleteUser = async (req, res, next) => {

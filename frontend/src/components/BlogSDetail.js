@@ -33,14 +33,16 @@ const BlogSDetail = ({setisAddBlog}) => {
   )
   const handleIt =async (e) => {
     setCommentData(e.target.value);
-    const comment =  commentData;
-    if(comment.length > 1){
+  }
+  React.useEffect(()=>{
+    if(commentData.length > 0){
       setisDisabled(false);
     }
     else{
       setisDisabled(true);
     }
-  }
+  },[commentData])
+
   const handleSubmit = async (e) =>{
     e.preventDefault();
     const input = {description: commentData , ourUser : localStorage.userId , ourBlog:Location.state.id.id}
@@ -157,7 +159,6 @@ handleSubmit ={handleSubmit}/>
           </Card>
           {index + 1 === getBlogs.userComments.length && <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>{loading && `Loading...`}</div>}  
         </>}    
-           
           )
          }
       </>

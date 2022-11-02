@@ -1,15 +1,19 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from "./Navbar";
 import { useState, useEffect } from "react";
 
 const ReminderDetails = () => {
   const navigate = useNavigate();
   const [reminder, setReminder] = useState();
+  const [isDisabled,setisDisabled] = useState(true);
   const id = useParams().id;
-  const [inputs, setinputs] = useState({});
-
+  const [inputs, setinputs] = useState({
+    title:"",
+    noofques:"",
+    time:"",
+    topic:""
+  });
   const handleChange = (e) => {
     setinputs((prevState) => ({
       ...prevState,
@@ -35,7 +39,13 @@ const ReminderDetails = () => {
       });
     });
   }, [id]);
-
+  useEffect(() => {
+  
+    setisDisabled(inputs.title.length > 0 && inputs.noofques>0 && inputs.topic.length > 0 && inputs.time.length>0);
+    
+  }, [inputs.title,inputs.noofques,inputs.time,inputs.topic])
+  
+ 
   const sendRequest = async () => {
     const res = await axios
       .put(`http://localhost:5000/api/reminders/update/${id}`, {
@@ -49,11 +59,8 @@ const ReminderDetails = () => {
     const data = await res.data;
     return data;
   };
-  console.log(reminder);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(inputs);
     sendRequest()
       .then((data) => console.log(data))
       .then(() => navigate("/reminders/"));
@@ -114,8 +121,8 @@ const ReminderDetails = () => {
                   placeholder="Enter a topic "
                 />
                 <div className="add_reminder_btn_div">
-                  <button>Update Reminder</button>
-                </div>
+                  <button disabled={!isDisabled} >Update Reminder</button>
+                  </div>
               </div>
             </form>
           </div>
