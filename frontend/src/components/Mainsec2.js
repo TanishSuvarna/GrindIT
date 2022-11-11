@@ -6,7 +6,7 @@ import axios from "axios";
 
 import profilelogo from "../utils/Images/profile_login.png";
 
-const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
+const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId,codeNinjaId }) => {
   const [questions, setquestions] = useState();
   let id = localStorage.getItem("userId");
   const fetchDetails = async () => {
@@ -181,7 +181,7 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
             {localStorage.getItem("leetRanking") && <div className="profile_stat_boxes">
               <div className="profile_box_img rank_img"></div>
               <p>
-                LeetCode Rank <span>{localStorage.getItem("leetRanking")}</span>
+                LeetCode Rank <span>{localStorage.getItem("leetRanking") || 'null'}</span>
               </p>
             </div>}
 
@@ -200,14 +200,14 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
            { localStorage.getItem("codeData") && <div className="profile_stat_boxes">
               <div className="profile_box_img hacker_img"></div>
               <p>
-                CodeForces Rating<span> {JSON.parse((localStorage.getItem("codeData"))).rating}</span>
+                CodeForces Rating<span> {JSON.parse((localStorage.getItem("codeData"))).rating || 'null'}</span>
               </p>
             </div>}
 
             {localStorage.getItem("codeData") &&<div className="profile_stat_boxes">
               <div className="profile_box_img hacker_img"></div>
               <p>
-                CodeForces Rank<span> {JSON.parse((localStorage.getItem("codeData"))).rank}</span>
+                CodeForces Rank<span> {JSON.parse((localStorage.getItem("codeData"))).rank || 'null'}</span>
               </p>
             </div>}
           </div>
