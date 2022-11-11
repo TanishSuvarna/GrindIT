@@ -165,3 +165,17 @@ export const getQuestionsByid = async (req, res, next) => {
     console.log(err);
   }
 };
+export const getUserByid = async (req, res, next) => {
+  let userId = req.params.id;
+  let currentUser;
+  try {
+    currentUser = await user.findById(userId);
+    if (!currentUser) {
+      return res.status(400).json({ message: "user not found" });
+    } else {
+      return res.status(201).json({ message: currentUser });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};

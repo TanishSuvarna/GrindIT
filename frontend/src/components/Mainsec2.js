@@ -1,10 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import "../css/mainsec2.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
+
 import profilelogo from "../utils/Images/profile_login.png";
-export default function Mainsec2() {
+
+const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
   const [questions, setquestions] = useState();
   let id = localStorage.getItem("userId");
   const fetchDetails = async () => {
@@ -72,6 +74,43 @@ export default function Mainsec2() {
           <div className="profile_box">
             <img className="profile_img" src={profilelogo} alt="" />
             <label htmlFor="">{localStorage.getItem("Name")}</label>
+          </div>
+
+          <div className="black-line"></div>
+          <div className="profile_stat_div">
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img phone_img"></div>
+              <p>
+                Phone Number <span>{phonenumber}</span>
+              </p>
+            </div>
+
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img email_img"></div>
+              <p>
+                Email <span>{email}</span>
+              </p>
+            </div>
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img rank_img"></div>
+              <p>
+                Leet Code Rank <span>{}</span>
+              </p>
+            </div>
+
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img leet_img"></div>
+              <p>
+                Leet Code id <span>{leetcodeId}</span>
+              </p>
+            </div>
+
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img hacker_img"></div>
+              <p>
+                Hacker Rank id <span>{hackerRankId}</span>
+              </p>
+            </div>
           </div>
         </div>
         <div className="mainsec_container_wrapper">
@@ -168,4 +207,5 @@ export default function Mainsec2() {
       </div>
     </React.Fragment>
   );
-}
+};
+export default Mainsec2;

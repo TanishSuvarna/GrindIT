@@ -8,7 +8,8 @@
     "graphql-request": "^5.0.0",
     "mongoose": "^6.6.1",
     "node": "^18.9.0",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "framer-motion": "^4.1.17"
   },
   "name": "discuss",
   "version": "1.0.0",

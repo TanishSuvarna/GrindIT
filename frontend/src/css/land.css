@@ -5,7 +5,7 @@
     font-family: 'Signika', sans-serif;
 }
 .land_logo_div{
-    
+   
     background-image: url("../utils/Images/logo2.png");
     background-repeat: no-repeat;
     background-size: cover;
@@ -16,8 +16,10 @@
 .land_main_container{
     background: url("../utils/Images/land_background.jpg") no-repeat center center fixed;
     background-size: cover;
+    opacity: 1;
     height: 100%;
     width: 100vw;
+    z-index: 10;
     display: flex;
     justify-content: center;
 }
@@ -129,10 +131,10 @@
     justify-content: center;
     transition: all .3s ease-in-out;
 }
-.sec_3_box:hover{
+/* .sec_3_box:hover{
     transform: scale(1.05);
     
-}
+} */
 .land_sec_3_img_1{
     background-image: url("../utils/Images/reminder.png");
     background-repeat: no-repeat;

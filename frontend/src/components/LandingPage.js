@@ -1,9 +1,17 @@
 import React from "react";
 import "../css/land.css";
 import { Link } from "react-router-dom";
-export default function LandingPage({ setisSignUp }) {
+import Login from "./login";
+import Register from "./register";
+import { motion } from "framer-motion";
+export default function LandingPage({
+  setisSignUp,
+  isSignUp,
+  isCrossed,
+  setisCrossed,
+}) {
   return (
-    <React.Fragment>
+    <>
       <div className="land_main_container">
         <div className="land_wrapper">
           <div className="land_nav">
@@ -67,6 +75,6 @@ export default function LandingPage({ setisSignUp }) {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
