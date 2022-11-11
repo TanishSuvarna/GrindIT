@@ -1,14 +1,8 @@
 import React from "react";
 import "../css/register.css";
-import Logo from "../utils/Images/Logo.png";
-import facebook from "../utils/socialLogo/facebook.png";
-import instagram from "../utils/socialLogo/instagram.png";
-import twitter from "../utils/socialLogo/twitter.png";
-import youtube from "../utils/socialLogo/youtube.png";
 import "react-phone-input-2/lib/style.css";
-import PhoneInput from "react-phone-input-2";
 import { motion } from "framer-motion";
-console.log(PhoneInput);
+
 const register = ({
   setisSignUp,
   handleSubmit,
@@ -51,7 +45,7 @@ const register = ({
                 </button>
               </div>
             </div>
-            <form action="" class="register_form" onsubmit={handleSubmit}>
+            <form action="" class="register_form" onSubmit={handleSubmit}>
               <div class="register_cross_btn_div">
                 <div
                   class="register_cross_btn"
