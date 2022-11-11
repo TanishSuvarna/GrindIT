@@ -45,7 +45,7 @@ const register = ({
                 </button>
               </div>
             </div>
-            <form action="" class="register_form" onsubmit={handleSubmit}>
+            <form action="" class="register_form" onSubmit={handleSubmit}>
               <div class="register_cross_btn_div">
                 <div
                   class="register_cross_btn"

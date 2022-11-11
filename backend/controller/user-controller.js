@@ -42,7 +42,6 @@ export const signup = async (req, res, next) => {
         sender: "stanish.mi@gmail.com",
       });
     }
-
     if (true) {
       newUser = new user({
         name,
@@ -107,25 +106,38 @@ query userProblemSolved($username:String!){
                                       }
                                     }
                                  }`;
+  const ranking = gql`  query userPublicProfile($username: String!) {
+    matchedUser(username: $username) {
+      profile {
+        ranking
+      }
+    }
+  }`
  export const leetcodeData =async(req,res,next) =>{
   const username = req.params.leetcodeId;
   let allLeet;
+    let ranking1;
   try {
     const graphQLClient = new GraphQLClient("https://leetcode.com/graphql");
     await graphQLClient
       .request(getData, { username: username })
-      .then((results) => {
+      .then(async (results) => {
         allLeet = results.matchedUser.submitStatsGlobal.acSubmissionNum;
+        await graphQLClient
+        .request(ranking ,{username:username})
+        .then(data => {
+          console.log(data);
+           ranking1 = data.matchedUser.profile.ranking});
       });
   } catch (e) {
     return res.status(400).json({ message: "Enter Correct Leetcode Id" });
   }
-  return res.status(200).json({ allLeet });
+
+  return res.status(200).json({ allLeet , ranking1 });
 };
 
 export const deleteUser = async (req, res, next) => {
   let userid = req.params.id;
-
   let currentUser;
   try {
     currentUser = await user.findByIdAndDelete(userid);
@@ -205,11 +217,31 @@ export const getUserByid = async (req, res, next) => {
 };
 export const codeforcesData = async(req,res)=>{
   const handle = req.params.codeforcesId;
-  let easy = 0 , medium = 0 , hard = 0;
+  let easy =[] , medium =[] , hard  = [];
   const data = await axios.get(`https://codeforces.com/api/user.status?handle=${handle}`)
   .catch(err => {
-    res.status(404).json({message : "Please Try Again"})
+    console.log(err)
+    return false;
   });
-  if(data.status = "FAILED") res.status(400).json({message:"Please Enter Valid Handle"});
- 
+  if(data === false|| data.data.status === "FAILED") return res.status(400).json({message:"Please Enter Valid Handle"});
+  else{
+    data.data.result.map(ques => {
+      if(ques.verdict == "OK")
+      {if(parseInt(ques.problem.rating) <= 1000){
+         easy.push(ques.id);
+      }
+      else if(parseInt(ques.problem.rating) > 1000 && parseInt(ques.problem.rating) <= 2000){
+        medium.push(ques.id);
+      }
+      else{
+        hard.push(ques.id);
+      }}
+      return ques;
+    })
+    easy = [...new Set(easy)];
+    medium = [...new Set(medium)];
+    hard = [...new Set(hard)];
+    const info = await axios.get(`https://codeforces.com/api/user.info?handles=${handle}`);
+    res.status(200).json({easy:easy.length , medium:medium.length , hard:hard.length,rating : info.data.result[0].rating , rank: info.data.result[0].rank})
+  }
 }

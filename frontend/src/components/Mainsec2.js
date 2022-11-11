@@ -26,12 +26,16 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
 
   const [leetId,setleetId] = useState(localStorage.getItem("leetcodeId"));
   const [hackId , setHackId] = useState(localStorage.getItem("hackerrankId"));
+  const [codeId , setCodeId] = useState(localStorage.getItem("codeforcesId"));
   const [change , setChange] = useState("");
   const [change2 , setChange2] = useState("");
+  const [change3 , setChange3] = useState("");
   const[error , setError] = useState(false);
   const[error2 , setError2] = useState(false);
+  const[error3 , setError3] = useState(false);
   const [dis , setdis] = useState();
   const [dis2 , setdis2] = useState();
+  const [dis3 , setdis3] = useState();
   const handleChange = (e) => {
     setChange(e.target.value);
     setError(false);
@@ -40,13 +44,23 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
     setChange2(e.target.value);
     setError2(false);
   }
+  const handleChange3 = (e) => {
+    setChange3(e.target.value);
+    setError3(false);
+  }
   const handleSubmit = (e)=>{
     e.preventDefault();
     setleetId(change);
   }
+ 
   const handleSubmit2 = (e)=>{
     e.preventDefault();
     setHackId(change2);
+  }
+
+  const handleSubmit3 = (e)=>{
+    e.preventDefault();
+    setCodeId(change3);
   }
   useEffect(() => {
     const func  = async() => {
@@ -56,6 +70,7 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
         if(data.data.allLeet){
         localStorage.setItem("leetcodeId" , leetId)
         localStorage.setItem("leetData" ,JSON.stringify(data.data.allLeet))
+        localStorage.setItem("leetRanking",data.data.ranking1);
         setdis(true); 
       }
       });
@@ -81,17 +96,15 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
       if(hackId !== 'null'){
       try{
        await axios.get(`http://localhost:5000/api/user/userData/hackerrank/${hackId}`).then((data) => {
-        if(data.data.allQues){
         localStorage.setItem("hackerrankId" , hackId)
+        localStorage.setItem("hackData" , data.data.totalQues)
         // localStorage.setItem("hackData" ,JSON.stringify(data.data.allQues))
-        console.log(data.data.allQues)
         setdis2(true); 
-      }
       });
     }
       catch(err){
         localStorage.removeItem("hackData");
-        localStorage.setItem("hackId" ,'null');
+        localStorage.setItem("hackerrankId" ,'null');
         setError2(true);
         setHackId('')
         setChange2("");
@@ -105,6 +118,32 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
   
     func();
   }, [hackId]);
+
+  useEffect(() => {
+    const func  = async() => {
+      if(codeId !== 'null'){
+      try{
+       await axios.get(`http://localhost:5000/api/user/userData/codeforces/${codeId}`).then((data) => {
+        localStorage.setItem("codeforcesId" , codeId)
+        localStorage.setItem("codeData" , JSON.stringify(data.data))
+        setdis3(true); 
+      });
+    }
+      catch(err){
+        localStorage.removeItem("codeData");
+        localStorage.setItem("codeforcesId" ,'null');
+        setError3(true);
+        setCodeId('')
+        setChange3("");
+        return console.log(err)
+      }
+    }
+    else {
+      localStorage.setItem("codeforcesId" ,'null');
+    }
+  }
+    func();
+  }, [codeId]);
 
   return (
     <React.Fragment>
@@ -130,26 +169,47 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
                 Email <span>{email}</span>
               </p>
             </div>
-            <div className="profile_stat_boxes">
-              <div className="profile_box_img rank_img"></div>
-              <p>
-                Leet Code Rank <span>{}</span>
-              </p>
-            </div>
+            
 
-            <div className="profile_stat_boxes">
+            {localStorage.getItem("leetcodeId") && localStorage.getItem("leetId") !== 'null' && <div className="profile_stat_boxes">
               <div className="profile_box_img leet_img"></div>
               <p>
-                Leet Code id <span>{leetcodeId}</span>
+                LeetCode Id <span> {localStorage.getItem("leetcodeId")}</span>
               </p>
-            </div>
+            </div>}
 
-            <div className="profile_stat_boxes">
+            {localStorage.getItem("leetRanking") && <div className="profile_stat_boxes">
+              <div className="profile_box_img rank_img"></div>
+              <p>
+                LeetCode Rank <span>{localStorage.getItem("leetRanking")}</span>
+              </p>
+            </div>}
+
+            {localStorage.getItem("hackerrankId") && localStorage.getItem("hackerrankId") !== 'null' && <div className="profile_stat_boxes">
               <div className="profile_box_img hacker_img"></div>
               <p>
-                Hacker Rank id <span>{hackerRankId}</span>
+                HackerRank Id <span> {localStorage.getItem("hackerrankId")}</span>
               </p>
-            </div>
+            </div>}
+            {localStorage.getItem("codeforcesId")&& localStorage.getItem("codeforcesId") !== 'null' && <div className="profile_stat_boxes">
+              <div className="profile_box_img hacker_img"></div>
+              <p>
+                CodeForces Id <span>{localStorage.getItem("codeforcesId")}</span>
+              </p>
+            </div>}
+           { localStorage.getItem("codeData") && <div className="profile_stat_boxes">
+              <div className="profile_box_img hacker_img"></div>
+              <p>
+                CodeForces Rating<span> {JSON.parse((localStorage.getItem("codeData"))).rating}</span>
+              </p>
+            </div>}
+
+            {localStorage.getItem("codeData") &&<div className="profile_stat_boxes">
+              <div className="profile_box_img hacker_img"></div>
+              <p>
+                CodeForces Rank<span> {JSON.parse((localStorage.getItem("codeData"))).rank}</span>
+              </p>
+            </div>}
           </div>
         </div>
         <div className="mainsec_container_wrapper">
@@ -188,14 +248,14 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
            {dis2 ? <div className="status_box">
               <p>Hacker Rank</p>
               <div className="status_nums">
-                <div className="status_circle">12</div>
-                <div className="status_circle">23</div>
-                <div className="status_circle">34</div>
+                {/* <div className="status_circle">12</div> */}
+                <div className="status_circle">{localStorage.getItem("hackData")}</div>
+                {/* <div className="status_circle">34</div> */}
               </div>
               <div className="status_diff">
-                <label htmlFor="">Easy</label>
-                <label htmlFor="">Medium</label>
-                <label htmlFor="">Hard</label>
+                {/* <label htmlFor="">Easy</label> */}
+                <label htmlFor="">Total Solved</label>
+                {/* <label htmlFor="">Hard</label> */}
               </div>
             </div>:
             <div className="status_div">
@@ -207,12 +267,12 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
                 </form>
                 
               </div>}
-            <div className="status_box">
-              <p>Code Ninja</p>
+            {dis3 ? <div className="status_box">
+              <p>CodeForces</p>
               <div className="status_nums">
-                <div className="status_circle">12</div>
-                <div className="status_circle">23</div>
-                <div className="status_circle">34</div>
+                <div className="status_circle">{JSON.parse(localStorage.getItem("codeData")).easy}</div>
+                <div className="status_circle">{JSON.parse(localStorage.getItem("codeData")).medium}</div>
+                <div className="status_circle">{JSON.parse(localStorage.getItem("codeData")).hard}</div>
               </div>
               <div className="status_diff">
                 <label htmlFor="">Easy</label>
@@ -220,6 +280,14 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
                 <label htmlFor="">Hard</label>
               </div>
             </div>
+            :<div className="status_div">
+              <p>Enter CodeForces ID</p>
+                <form onSubmit={handleSubmit3}>
+                  <input type ="text" onChange={handleChange3} value ={change3} placeholder="Enter Hackerrank Id"/>
+                  <button type="submit">Submit</button>
+                  <div style={{fontSize: '10px' , color:"red"}}>{error3 && "Please Enter A Valid CodeForces Id"}</div>
+                </form>
+              </div>}
           </div>
           <div className="reminder_div">
             <div>

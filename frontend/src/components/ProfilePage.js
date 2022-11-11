@@ -16,9 +16,7 @@ const ProfilePage = () => {
   };
   useEffect(() => {
     sendRequest().then((data) => {
-      console.log(data.message);
       setUser(data.message);
-      console.log("message");
     });
   }, []);
 

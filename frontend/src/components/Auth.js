@@ -118,10 +118,12 @@ const Auth = ({ isSignUp, setisSignUp }) => {
     localStorage.setItem("userId", data.newUser._id);
    if(data.newUser.leetcodeId.length)  localStorage.setItem("leetcodeId" , data.newUser.leetcodeId);
    else  localStorage.setItem("leetcodeId" , 'null');
-   if(data.newUser.hackerRankId.length) localStorage.setItem("hackerrankId" , data.newUser.leetcodeId);
+   if(data.newUser.hackerRankId.length) localStorage.setItem("hackerrankId" , data.newUser.hackerRankId);
    else  localStorage.setItem("hackerrankId" , 'null');
-    dispatch(authActions.login());
-    navigate("/myProfile");
+   if(data.newUser.codeNinjaId.length) localStorage.setItem("codeforcesId" , data.newUser.codeNinjaId);
+   else  localStorage.setItem("codeforcesId" , 'null');
+  dispatch(authActions.login());
+  navigate("/myProfile");
     return data;
   };
   const handleSubmit = (e) => {
@@ -189,8 +191,6 @@ const Auth = ({ isSignUp, setisSignUp }) => {
                     onClick={(event) => {
                       setisSignUp(false);
                       setisCrossed(true);
-                      console.log("crossed " + isCrossed);
-                      console.log("signup " + isSignUp);
                     }}
                   >
                     Sign in
