@@ -6,13 +6,13 @@ import { useState, useEffect } from "react";
 const ReminderDetails = () => {
   const navigate = useNavigate();
   const [reminder, setReminder] = useState();
-  const [isDisabled,setisDisabled] = useState(true);
+  const [isDisabled, setisDisabled] = useState(true);
   const id = useParams().id;
   const [inputs, setinputs] = useState({
-    title:"",
-    noofques:"",
-    time:"",
-    topic:""
+    title: "",
+    noofques: "",
+    time: "",
+    topic: "",
   });
   const handleChange = (e) => {
     setinputs((prevState) => ({
@@ -40,12 +40,14 @@ const ReminderDetails = () => {
     });
   }, [id]);
   useEffect(() => {
-  
-    setisDisabled(inputs.title.length > 0 && inputs.noofques>0 && inputs.topic.length > 0 && inputs.time.length>0);
-    
-  }, [inputs.title,inputs.noofques,inputs.time,inputs.topic])
-  
- 
+    setisDisabled(
+      inputs.title.length > 0 &&
+        inputs.noofques > 0 &&
+        inputs.topic.length > 0 &&
+        inputs.time.length > 0
+    );
+  }, [inputs.title, inputs.noofques, inputs.time, inputs.topic]);
+
   const sendRequest = async () => {
     const res = await axios
       .put(`http://localhost:5000/api/reminders/update/${id}`, {
@@ -121,8 +123,8 @@ const ReminderDetails = () => {
                   placeholder="Enter a topic "
                 />
                 <div className="add_reminder_btn_div">
-                  <button disabled={!isDisabled} >Update Reminder</button>
-                  </div>
+                  <button disabled={!isDisabled}>Update Reminder</button>
+                </div>
               </div>
             </form>
           </div>

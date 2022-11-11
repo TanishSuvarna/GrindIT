@@ -1,7 +1,7 @@
 :root{
   
     --dark-blue : #02204c;
-    --medium-blue : #03386d;
+    --medium-blue : #2b7dcf;
     --light-blue: #045c97;
     --ligher-blue: #6497b1;
     --lightes-blue:#b4cee2 ;
@@ -264,3 +264,4 @@
     background-size: contain;
     
   }
+

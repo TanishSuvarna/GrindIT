@@ -3,8 +3,10 @@ import Navbar from "./Navbar";
 import Mainsec2 from "./Mainsec2";
 import axios from "axios";
 import Footer from "./Footer";
+import LoaderScreen from "./LoaderScreen";
 const ProfilePage = () => {
   const [User, setUser] = useState();
+
   const id = localStorage.getItem("userId");
   const sendRequest = async () => {
     const res = await axios
@@ -23,6 +25,7 @@ const ProfilePage = () => {
   }, []);
 
   return (
+    // <LoaderScreen></LoaderScreen>
     <React.Fragment>
       {User && (
         <Mainsec2

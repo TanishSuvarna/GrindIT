@@ -60,7 +60,6 @@ const AddRemider = ({ setisCrossed, reminders, setreminders }) => {
     <>
       <div className="add_reminder_back">
         <div className="add_reminder_container">
-          <div className="reminder_img"></div>
           <div className="add_reminder_wrapper">
             <form
               onSubmit={handleSubmit}

@@ -173,6 +173,15 @@ export const getUserByid = async (req, res, next) => {
     if (!currentUser) {
       return res.status(400).json({ message: "user not found" });
     } else {
+      console
+        .log
+
+        // currentUser.filter(() => {
+        //   (userc) => {
+        //     return userc !== password;
+        //   };
+        // })
+        ();
       return res.status(201).json({ message: currentUser });
     }
   } catch (err) {
