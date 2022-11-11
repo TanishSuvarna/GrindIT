@@ -6,9 +6,7 @@ import instagram from "../utils/socialLogo/instagram.png";
 import twitter from "../utils/socialLogo/twitter.png";
 import youtube from "../utils/socialLogo/youtube.png";
 import "react-phone-input-2/lib/style.css";
-import PhoneInput from "react-phone-input-2";
 
-console.log(PhoneInput);
 const register = ({
   setisSignUp,
   handleSubmit,

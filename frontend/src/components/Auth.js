@@ -8,9 +8,9 @@ import { authActions } from "../store";
 import { useNavigate } from "react-router-dom";
 import LandingPage from "./LandingPage";
 const Auth = ({ isSignUp, setisSignUp }) => {
-  let navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [validLength, setValidLength] = useState(null);
+let navigate = useNavigate();
+const dispatch = useDispatch();
+const [validLength, setValidLength] = useState(null);
 const [hasNumber, setHasNumber] = useState(null);
 const [upperCase, setUpperCase] = useState(null);
 const [lowerCase, setLowerCase] = useState(null);
@@ -44,7 +44,7 @@ const [isDisabled,setisDisabled] = useState(false);
     setHasNumber(/\d/.test(allInputs.password));
     setMatch(allInputs.password && allInputs.password === allInputs.confirmPass);
     setSpecialChar(/[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/.test(allInputs.password));
-    seteVal(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(allInputs.email))
+    seteVal(/([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gmail([\.])com/g.test(allInputs.email))
     setisDisabled(validLength && hasNumber && upperCase && lowerCase && specialChar && eVal && match && (allInputs.name.length > 0) && (allInputs.phoneNumber.length === 10))
     }, [allInputs.password, allInputs.confirmPass ,allInputs.email,allInputs.name,allInputs.phoneNumber]);
     useEffect (() =>{
@@ -63,7 +63,6 @@ const [isDisabled,setisDisabled] = useState(false);
     let res;
     try{
      res = await axios.post(`http://localhost:5000/api/user/${type}` ,user)
-     console.log(res.data);
   }
     catch(err){
       setallInputs({
@@ -81,11 +80,12 @@ const [isDisabled,setisDisabled] = useState(false);
     }
     const data = await res.data;
     localStorage.setItem("userId", data.newUser._id);
-    localStorage.setItem("Name", data.newUser.name);
-   if(data.newUser.leetcodeId) localStorage.setItem("leetCodeId" , data.newUser.leetcodeId);
-   else localStorage.setItem("leetCodeId" , 'null');
+   if(data.newUser.leetcodeId.length)  localStorage.setItem("leetcodeId" , data.newUser.leetcodeId);
+   else  localStorage.setItem("leetcodeId" , 'null');
+   if(data.newUser.hackerRankId.length) localStorage.setItem("hackerrankId" , data.newUser.leetcodeId);
+   else  localStorage.setItem("hackerrankId" , 'null');
     dispatch(authActions.login());
-    navigate("/blogs");
+    navigate("/myProfile");
     return data;
   };
   const handleSubmit = (e) => {
