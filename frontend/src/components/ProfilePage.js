@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import LoaderScreen from "./LoaderScreen";
 const ProfilePage = () => {
   const [User, setUser] = useState();
-
+  const [isLoading, setisLoading] = useState(true);
   const id = localStorage.getItem("userId");
   const sendRequest = async () => {
     const res = await axios
@@ -23,17 +23,19 @@ const ProfilePage = () => {
   }, []);
 
   return (
-    // <LoaderScreen></LoaderScreen>
-    <React.Fragment>
-      {User && (
-        <Mainsec2
-          email={User.email}
-          phonenumber={User.phoneNumber}
-          leetcodeId={User.leetcodeId}
-          hackerRankId={User.hackerRankId}
-        />
-      )}
-    </React.Fragment>
+    <>
+      {isLoading && <LoaderScreen setisLoading={setisLoading}></LoaderScreen>}
+      <React.Fragment>
+        {User && (
+          <Mainsec2
+            email={User.email}
+            phonenumber={User.phoneNumber}
+            leetcodeId={User.leetcodeId}
+            hackerRankId={User.hackerRankId}
+          />
+        )}
+      </React.Fragment>
+    </>
   );
 };
 export default ProfilePage;

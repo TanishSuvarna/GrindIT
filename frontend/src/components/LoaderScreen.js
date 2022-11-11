@@ -4,14 +4,16 @@ import ClimbingBoxLoader from "react-spinners/ClimbingBoxLoader";
 import { useState } from "react";
 import "../css/loaderScreen.css";
 
-const LoaderScreen = () => {
+const LoaderScreen = ({ setisLoading }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
+    setisLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 8000);
+      setisLoading(false);
+    }, 2000);
   });
 
   return (
