@@ -1,10 +1,29 @@
 import React from "react";
-import {useEffect , useState} from "react";
-import axios from 'axios'
-import profilelogo from "../utils/Images/profile_login.png";
-import "../css/mainsec2.css";
 
-export default function Mainsec2(){
+import "../css/mainsec2.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+import profilelogo from "../utils/Images/profile_login.png";
+
+const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
+  const [questions, setquestions] = useState();
+  let id = localStorage.getItem("userId");
+  const fetchDetails = async () => {
+    const res = await axios(
+      `http://localhost:5000/api/user/questions/${id}`
+    ).catch((err) => console.log(err));
+    const data = await res.data;
+
+    return data;
+  };
+  useEffect(() => {
+    fetchDetails().then((data) => {
+      setquestions(data.message);
+    });
+  });
+
+
   const [leetId,setleetId] = useState(localStorage.getItem("leetcodeId"));
   const [hackId , setHackId] = useState(localStorage.getItem("hackerrankId"));
   const [change , setChange] = useState("");
@@ -35,7 +54,6 @@ export default function Mainsec2(){
       try{
        await axios.get(`http://localhost:5000/api/user/userData/leetcode/${leetId}`).then((data) => {
         if(data.data.allLeet){
-  
         localStorage.setItem("leetcodeId" , leetId)
         localStorage.setItem("leetData" ,JSON.stringify(data.data.allLeet))
         setdis(true); 
@@ -54,10 +72,9 @@ export default function Mainsec2(){
     else {
       localStorage.setItem("leetcodeId" ,'null');
     }
-  }
-  
     func();
-  }, [leetId]);
+  }
+}, [leetId]);
 
   useEffect(() => {
     const func  = async() => {
@@ -97,6 +114,43 @@ export default function Mainsec2(){
             <img className="profile_img" src={profilelogo} alt="" />
             <label htmlFor="">{localStorage.getItem("Name")}</label>
           </div>
+
+          <div className="black-line"></div>
+          <div className="profile_stat_div">
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img phone_img"></div>
+              <p>
+                Phone Number <span>{phonenumber}</span>
+              </p>
+            </div>
+
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img email_img"></div>
+              <p>
+                Email <span>{email}</span>
+              </p>
+            </div>
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img rank_img"></div>
+              <p>
+                Leet Code Rank <span>{}</span>
+              </p>
+            </div>
+
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img leet_img"></div>
+              <p>
+                Leet Code id <span>{leetcodeId}</span>
+              </p>
+            </div>
+
+            <div className="profile_stat_boxes">
+              <div className="profile_box_img hacker_img"></div>
+              <p>
+                Hacker Rank id <span>{hackerRankId}</span>
+              </p>
+            </div>
+          </div>
         </div>
         <div className="mainsec_container_wrapper">
           <div className="status_div">
@@ -113,15 +167,22 @@ export default function Mainsec2(){
                 <label htmlFor="">Medium</label>
                 <label htmlFor="">Hard</label>
               </div>
-            </div>:
-            <div className="status_div">
-              <p>Enter Leet Code ID</p>
+              </div>
+             : 
+              <div className="status_div">
+                <p>Enter Leet Code ID</p>
                 <form onSubmit={handleSubmit}>
-                  <input type ="text" onChange={handleChange} value ={change} placeholder="Enter Leetcode Id"/>
+                  <input
+                    type="text"
+                    onChange={handleChange}
+                    value={change}
+                    placeholder="Enter Leetcode Id"
+                  />
                   <button type="submit">Submit</button>
-                  <div style={{fontSize: '10px' , color:"red"}}>{error && "Please Enter A Valid Leetcode Id"}</div>
+                  <div style={{ fontSize: "10px", color: "red" }}>
+                    {error && "Please Enter A Valid Leetcode Id"}
+                  </div>
                 </form>
-                
               </div>
             }
            {dis2 ? <div className="status_box">
@@ -161,25 +222,32 @@ export default function Mainsec2(){
             </div>
           </div>
           <div className="reminder_div">
-            <div className="reminder_box">
-              <label>Question 1</label>
-              <p>
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled i
-              </p>
+            <div>
+              <h1>Today's Reminders</h1>
             </div>
-            <div className="reminder_box">
-              <label>Question 1</label>
-              <p>
-                printing and typesetting industry. Lorem Ipsum has been the
-                industry's standard dummy text ever since the 1500s, when an
-                unknown printer took a galley of type and scrambled i
-              </p>
-            </div>
+            {questions &&
+              questions.map((ques, index) => (
+                <a
+                  className="question_link"
+                  href={ques}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <div className="reminder_box">
+                    <label>Question {index + 1}</label>
+                    <p>
+                      {ques
+                        .slice(29, ques.length + 1)
+                        .split("-")
+                        .join(" ")}
+                    </p>
+                  </div>
+                </a>
+              ))}
           </div>
         </div>
       </div>
     </React.Fragment>
   );
-}
+};
+export default Mainsec2;

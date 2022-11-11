@@ -1,107 +1,84 @@
 import React from "react";
 import "../css/loginpage.css";
-
-import profile_login from "../utils/Images/profile_login.jpg";
-import lock_login from "../utils/Images/lock_login.jpg";
-import Logo from "../utils/Images/Logo.png";
-import facebook from "../utils/socialLogo/facebook.png";
-import instagram from "../utils/socialLogo/instagram.png";
-import twitter from "../utils/socialLogo/twitter.png";
-import youtube from "../utils/socialLogo/youtube.png";
+import facebook from "../utils/Images/facebook1.png";
+import linked from "../utils/Images/linkedin1.png";
+import gmail from "../utils/Images/gmail1.png";
+import { motion } from "framer-motion";
 const login = ({
   setisSignUp,
   handleSubmit,
   handleIt,
   setAllInputs,
   allInputs,
+  setisCrossed,
 }) => {
   return (
-    <div className="login_body">
-      <div class="ripple-background">
-        <div class="circle xxlarge shade1"></div>
-        <div class="circle xlarge shade2"></div>
-        <div class="circle large shade3"></div>
-        <div class="circle mediun shade4"></div>
-        <div class="circle small shade5"></div>
-      </div>
-      <div class="login_main_container">
-        <div class="login_pic_div"></div>
-        <div class="Login_div">
-          <form action="" class="Login_form" onSubmit={handleSubmit}>
-            <div class="login_box_container">
-              <div class="Login_box">
-                <img class="img" src={profile_login} alt="" />
-                <input
-                  class="inputs"
-                  type="email"
-                  value={allInputs.email}
-                  onChange={handleIt}
-                  placeholder="Email"
-                  name="email"
-                  id=""
-                />
+    <>
+      <div className="login_back">
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: "100%" }}
+          transition={{ type: "spring", duration: 0.3 }}
+          exit={{ x: window.innerWidth }}
+          className="main_main_container"
+        >
+          <div className="main_login_container">
+            <form action="" className="login_form" onSubmit={handleSubmit}>
+              <h1 className="login_title">Login to Your Account</h1>
+              <p className="login_social_title">Login using social networks.</p>
+              <div className="socail_container">
+                <img src={facebook} alt="" />
+                <img src={gmail} alt="" />
+                <img src={linked} alt="" />
+              </div>
+              <h5>
+                <span>OR</span>
+              </h5>
+              <input
+                className="login_inputs"
+                type="email"
+                value={allInputs.email}
+                onChange={handleIt}
+                placeholder="Email"
+                name="email"
+                id=""
+              />
+              <input
+                className="login_inputs"
+                type="password"
+                value={allInputs.password}
+                onChange={handleIt}
+                placeholder="Password"
+                name="password"
+                id=""
+              />
+
+              <button className="login_submit">Sign in</button>
+            </form>
+            <div className="signup_image">
+              <div class="cross_btn_div">
+                <div
+                  class="cross_btn"
+                  onClick={() => setisCrossed(false)}
+                ></div>
+              </div>
+              <div className="div_signup">
+                <h1 className="login_title">New Here?</h1>
+                <p className="login_social_title">
+                  Sign up and discover a great amount of new apportunities!
+                </p>
+                <button
+                  className="signup_btn"
+                  onClick={() => setisSignUp(true)}
+                >
+                  Sign up
+                </button>
               </div>
             </div>
-            <div class="login_box_container">
-              <div class="Login_box">
-                <img class="img" src={lock_login} alt="" />
-                <input
-                  class="inputs"
-                  type="password"
-                  value={allInputs.password}
-                  onChange={handleIt}
-                  placeholder="Password"
-                  name="password"
-                  id=""
-                />
-              </div>
-            </div>
-            <button id="submit_btn">Login</button>
-            <p style={{ color: "white" }}>
-              Doesn't have an account?{" "}
-              <span
-                style={{ color: "blue", cursor: "pointer" }}
-                onClick={() => setisSignUp(true)}
-              >
-                Register Here
-              </span>
-            </p>
-          </form>
-        </div>
+          </div>
+        </motion.div>
       </div>
-
-      <div class="login_footer">
-        <div class="login_footer_wrapper">
-          <img class="login_footer_logo" src={Logo} alt="" />
-          <p>
-            We provide a platform which will help you on your journey to crack
-            your dream company. Practise daily with daily reminders of DSA
-            Questions from famous websites like Leetcode , HackerRank , Code
-            Ninja .
-          </p>
-        </div>
-        <div class="login_footer_socials">
-          <a href="facebook.com">
-            <img src={facebook} alt="" />
-          </a>
-          <a href="instagram.com">
-            <img src={instagram} alt="" />
-          </a>
-
-          <a href="twitter.com">
-            <img src={twitter} alt="" />
-          </a>
-
-          <a href="youtube.com">
-            {" "}
-            <img src={youtube} alt="" />
-          </a>
-        </div>
-      </div>
-      <div class="login_footer_copyright">
-        <p>Copyright © 2022 SudoKode</p>
-      </div>
-    </div>
+    </>
   );
 };
 

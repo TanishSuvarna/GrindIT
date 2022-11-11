@@ -12,7 +12,11 @@
     --light-grey: #909090;	
     --medium-grey: #535353;	
     --dark-grey: #414141;	
-    
+    --main-light-grey: rgb(51, 51, 51);
+    --main-medium-grey: rgb(46, 46, 46);
+    --main-dark-grey: rgb(39, 39, 39);
+    --main-shadow:rgb(16, 16, 16);
+    --main-light-shadow:rgb(41, 41, 41);
 
 
 }
@@ -25,77 +29,131 @@
     font-family: 'Jost', sans-serif;
 }
 
-
+.not_added_reminder_title{
+    color: white;
+    
+}
 
 .reminder_main_container{
     display: flex;
-     background-color: var(--medium-grey);
-    flex-direction: row;
+    background-color: var(--main-light-grey);
+    box-shadow: 0px 0px 5px 4px var(--main-light-shadow);
+    flex-direction: column;
+    align-items: center;
     border-radius: 8px;
+    width: auto;
+    
 }
 
 .reminder-app{
-    height: 800px;
-    background-color: var(--dark-grey);
+    height: auto;
+    min-height: 100vh;
+    background-color: var(--main-dark-grey);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 .reminder_update_btn{
     height: auto;
-    margin: 20px;
-    width: 100px;
+    padding-bottom: 20px;
+    width: 200px;
     display: flex;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: space-around;
+    flex-direction: row;
 }
 .reminder_update_btn button{
     height: 40px;
-    margin: 4px;
+    color: rgb(255, 255, 255);
+    margin: 5px;
     font-size: 1.1rem;
     border: none;
-    width: auto;
+    background-color: var(--main-dark-grey);
+    box-shadow: 0px 0px 3px 2px var(--main-light-shadow);
+    width: 80px;
     border-radius: 7px;
-    transition: background-color 0.4s ease;
+    transition: color 0.4s ease;
 }
 .reminder_update_btn button:hover{
     cursor: pointer;
-    background-color: #aaaaaa;
+    color: rgb(185, 185, 185);
 }
 .main-container{
-    
-    width: auto;
-    height: 700px;
-    background-color: var(--light-grey);
+   
+    width: 50vw;
+    height: auto;
+    min-height: 100vh;
+    background-color: var(--main-medium-grey);
+    box-shadow: 0px 0px 10px 0px var(--main-shadow);
     display: flex;
     padding: 20px;
+    padding-top: 40px;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    border-radius: 12px;
+   
+}
+.reminder-main-main-container{
+    display: flex;
+    gap: 20px;
+    width: auto;
+    flex-wrap: wrap;
+}
+.black-line-reminder{
+    height: 1px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 250px;
+    background-color: rgb(0, 0, 0);
+}
+.black-line-2{
+    height: 1px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    
+    width: 46vw;
+    background-color: rgb(33, 33, 33);
 }
 .reminder{
     color: white;
     border-radius: 9px;
     padding: 20px;
-    width:850px;
+    width:290px;
+    line-height: 1.4;
     height: auto ;
-    background-color: var(--medium-grey);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--main-light-grey);
 
+}
+.reminder-name{
+    display: inline-block;
 }
 
 .add-reminder-btn{
     border: none;
     border-radius: 9px;
     color: white;
-    background-color: var(--medium-grey);
+    background-color: var(--main-light-grey);
+    box-shadow: 0px 0px 10px 0px var(--main-light-shadow);
     width: 130px;
     height: 40px;
-    transition:  background-color 0.7s ease;
+    transition:  background-color 0.2s ease;
     
 }
 .add-reminder-btn:hover{
     cursor: pointer;
-    background-color: var(--lighter-grey);
-    color: var(--dark-blue);
+    background-color: var(--main-medium-grey);
+    
+}
+.reminder-details{
+    display: flex;
+    flex-direction: column;
+    
+}
+.reminder-title-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
 }

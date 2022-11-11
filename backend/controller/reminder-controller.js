@@ -109,14 +109,24 @@ setInterval(() => {
           !currentUser.isRemindedToday
         ) {
           const questions = await getData(element.difficulty, element.topic);
+          while (currentUser.todayQuestions.length > 0) {
+            currentUser.todayQuestions.pop();
+          }
           let arr = [];
           for (let i = 0; i < element.noofques; i++) {
             let x = Math.random() * (questions.length - 1);
             let q = questions[Math.floor(x)];
 
-
+            console.log(q);
             arr.push(`http://leetcode.com/problems/${q} ` + "\n");
+            console.log(arr.slice(-1));
+
+            currentUser.todayQuestions.push(
+              `http://leetcode.com/problems/${q}`
+            );
+            await currentUser.save();
           }
+
           console.log(currentUser.isRemindedToday);
           console.log(currentUser);
           var mailOptions = {

@@ -37,11 +37,14 @@ export const signup = async (req, res, next) => {
     return res.status(400).json({ message: "User Already Exists" });
   } else {
     async function isEmailValid(email) {
-      return emailValidator.validate({email:email , sender : 'stanish.mi@gmail.com'});
+      return emailValidator.validate({
+        email: email,
+        sender: "stanish.mi@gmail.com",
+      });
     }
-    
+
     if (true) {
-       newUser = new user({
+      newUser = new user({
         name,
         email,
         password,
@@ -65,7 +68,7 @@ export const signup = async (req, res, next) => {
       });
     }
 
-    return res.status(201).json({ newUser , message: "User Created" });
+    return res.status(201).json({ newUser, message: "User Created" });
   }
 };
 
@@ -107,16 +110,33 @@ query userProblemSolved($username:String!){
  export const leetcodeData =async(req,res,next) =>{
   const username = req.params.leetcodeId;
   let allLeet;
-  try{
-  const graphQLClient = new GraphQLClient('https://leetcode.com/graphql') 
-  await graphQLClient.request(getData,{username : username}).then((results) => {
-  allLeet =results.matchedUser.submitStatsGlobal.acSubmissionNum;
-})}
-catch(e){
-  return res.status(400).json({message:"Enter Correct Leetcode Id"})
-}
- return res.status(200).json({allLeet});
- }
+  try {
+    const graphQLClient = new GraphQLClient("https://leetcode.com/graphql");
+    await graphQLClient
+      .request(getData, { username: username })
+      .then((results) => {
+        allLeet = results.matchedUser.submitStatsGlobal.acSubmissionNum;
+      });
+  } catch (e) {
+    return res.status(400).json({ message: "Enter Correct Leetcode Id" });
+  }
+  return res.status(200).json({ allLeet });
+};
+
+export const deleteUser = async (req, res, next) => {
+  let userid = req.params.id;
+
+  let currentUser;
+  try {
+    currentUser = await user.findByIdAndDelete(userid);
+    if (!currentUser) {
+      return res.status(400).json({ message: "user not found" });
+    } else {
+      return res.status(201).json({ message: "user Deleted" });
+    }
+  } catch (err) {
+    return console.log(err);
+  }}
 export const hackerrankData = async (req,res) => {
   let res1;
   let cursor="";
@@ -128,7 +148,6 @@ export const hackerrankData = async (req,res) => {
          'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
       }
      });
-     
      }catch(err){
       console.log(err)
           return res.status(400).json({err : err.response})
@@ -142,9 +161,48 @@ export const hackerrankData = async (req,res) => {
   }while(!res1.data.last_page);
   return res.status(200).json({allQues, totalQues : allQues.length});
 } 
+export const updateUserReminder = async (req, res, next) => {
+  let userId = req.params.id;
+  try {
+    await user.findByIdAndUpdate(userId, { isRemindedToday: false });
+    if (!userId) {
+      return res.status(400).json({ message: "user not found" });
+    } else {
+      return res.status(201).json({ message: "user Reminded today changed" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 
-
-
+export const getQuestionsByid = async (req, res, next) => {
+  let userId = req.params.id;
+  let currentUser;
+  try {
+    currentUser = await user.findById(userId);
+    if (!currentUser) {
+      return res.status(400).json({ message: "user not found" });
+    } else {
+      return res.status(201).json({ message: currentUser.todayQuestions });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const getUserByid = async (req, res, next) => {
+  let userId = req.params.id;
+  let currentUser;
+  try {
+    currentUser = await user.findById(userId);
+    if (!currentUser) {
+      return res.status(400).json({ message: "user not found" });
+    } else {
+      return res.status(201).json({ message: currentUser });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
 export const codeforcesData = async(req,res)=>{
   const handle = req.params.codeforcesId;
   let easy = 0 , medium = 0 , hard = 0;

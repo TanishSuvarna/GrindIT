@@ -2,11 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/reminder.css";
+import { Link } from "react-router-dom";
+import AddRemider from "./AddReminders";
 const UserReminders = ({
   id,
   ourUser,
   title,
   difficulty,
+  reminders,
+  setreminders,
   noofques,
   time,
   topic,
@@ -25,37 +29,44 @@ const UserReminders = ({
   };
 
   const handleDelete = () => {
-    deleteRequest()
-      .then(() => navigate("/"))
-      .then(() => navigate("/reminders"));
+    deleteRequest().then((data) => {
+      let remind;
+      remind = reminders.filter((para) => {
+        if (para._id !== id) {
+          return para;
+        }
+      });
+      console.log(remind);
+      setreminders([...remind]);
+    });
   };
   return (
     <>
       <div className="reminder_main_container">
         <div className="reminder">
-          <label htmlFor="">
-            UserName: <span className="reminder-name">{ourUser}</span>
-          </label>
-          <br />
-          <label>
-            Title: <span className="reminder-name">{title}</span>
-          </label>
-          <br></br>
-          <label>
-            Difficulty: <span className="reminder-name">{difficulty}</span>
-          </label>
-          <br></br>
-          <label>
-            No of Questions: <span className="reminder-name">{noofques}</span>
-          </label>
-          <br></br>
-          <label>
-            Time set: <span className="reminder-name">{time}</span>
-          </label>
-          <br></br>
-          <label>
-            Topic: <span className="reminder-name">{topic}</span>
-          </label>
+          <div className="reminder-title-box">
+            <h1 className="reminder-name">{title}</h1>
+            <div className="black-line-reminder"></div>
+          </div>
+
+          <div className="reminder-details">
+            <label>
+              Difficulty: <span className="reminder-name">{difficulty}</span>
+            </label>
+
+            <label>
+              No of Questions daily:{" "}
+              <span className="reminder-name">{noofques}</span>
+            </label>
+
+            <label>
+              Time set: <span className="reminder-name">{time}</span>
+            </label>
+
+            <label>
+              Topic: <span className="reminder-name">{topic}</span>
+            </label>
+          </div>
         </div>
         <div className="reminder_update_btn">
           <button onClick={handleEdit}>Edit</button>

@@ -34,6 +34,14 @@ const user = new Schema({
   codeNinjaId: {
     type: String,
   },
+
+  todayQuestions: [
+    {
+      type: String,
+      default: "",
+    },
+  ],
+
   userBlog: [
     {
       type: mongoose.Types.ObjectId,
