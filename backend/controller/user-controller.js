@@ -126,7 +126,6 @@ query userProblemSolved($username:String!){
         await graphQLClient
         .request(ranking ,{username:username})
         .then(data => {
-          console.log(data);
            ranking1 = data.matchedUser.profile.ranking});
       });
   } catch (e) {
@@ -153,6 +152,7 @@ export const hackerrankData = async (req,res) => {
   let res1;
   let cursor="";
   let allQues = [];
+  let bool= false;
   const username = req.params.hackerrankId;
   do{
   try{
@@ -161,8 +161,9 @@ export const hackerrankData = async (req,res) => {
       }
      });
      }catch(err){
-      console.log(err)
-          return res.status(400).json({err : err.response})
+           res.status(400).json({err : "Enter Valid ID"})
+           bool = true;
+           break;
      }
      cursor = res1.data.cursor;
     //  res1.data.models.forEach(ques => {
@@ -171,7 +172,7 @@ export const hackerrankData = async (req,res) => {
     //  })
     allQues = [...allQues,...res1.data.models];
   }while(!res1.data.last_page);
-  return res.status(200).json({allQues, totalQues : allQues.length});
+  if(!bool)return res.status(200).json({allQues, totalQues : allQues.length});
 } 
 export const updateUserReminder = async (req, res, next) => {
   let userId = req.params.id;
@@ -229,7 +230,6 @@ export const codeforcesData = async(req,res)=>{
   let easy =[] , medium =[] , hard  = [];
   const data = await axios.get(`https://codeforces.com/api/user.status?handle=${handle}`)
   .catch(err => {
-    console.log(err)
     return false;
   });
   if(data === false|| data.data.status === "FAILED") return res.status(400).json({message:"Please Enter Valid Handle"});

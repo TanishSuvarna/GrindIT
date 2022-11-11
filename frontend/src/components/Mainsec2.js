@@ -6,7 +6,7 @@ import axios from "axios";
 
 import profilelogo from "../utils/Images/profile_login.png";
 
-const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
+const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId,codeNinjaId }) => {
   const [questions, setquestions] = useState();
   let id = localStorage.getItem("userId");
   const fetchDetails = async () => {
