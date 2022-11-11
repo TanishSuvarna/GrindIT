@@ -45,7 +45,7 @@
     position: relative;
     z-index: 10;
     width: 100%;
- 
+    
   }
   
   .nav_bar{
@@ -87,22 +87,23 @@
   }
   
   .nav_bar_div_3{
-    width: 100vw;
+    width: 50vw;
     display: flex;
     align-items: center;
     justify-content: flex-end;
   }
   
   .nav_bar_links{
-    font-size: 1.5rem;
+    font-size: 1.5vw;
     display: inline;
     text-decoration: none;
     list-style: none;
     padding: 10px;
     
+    }
     
   
-  }
+  
   .nav_bar_links a{
     
     color: var(--font-color);
@@ -139,3 +140,9 @@
     padding: 10px;
   }
   
+  /* @media (max-width: 1400px) {
+    .nav_bar_links{
+      font-size:1.1rem;
+    }
+    
+  } */
