@@ -21,7 +21,7 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
     fetchDetails().then((data) => {
       setquestions(data.message);
     });
-  });
+  },[]);
 
 
   const [leetId,setleetId] = useState(localStorage.getItem("leetcodeId"));
@@ -72,8 +72,8 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId }) => {
     else {
       localStorage.setItem("leetcodeId" ,'null');
     }
-    func();
   }
+   func();
 }, [leetId]);
 
   useEffect(() => {

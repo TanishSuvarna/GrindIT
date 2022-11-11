@@ -157,7 +157,7 @@ export const hackerrankData = async (req,res) => {
     //   const {name,url} = ques; 
     //   allQues = [...allQues ,{name,url}];
     //  })
-    allQues = [...allQues,res1.data.models];
+    allQues = [...allQues,...res1.data.models];
   }while(!res1.data.last_page);
   return res.status(200).json({allQues, totalQues : allQues.length});
 } 
