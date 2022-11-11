@@ -28,6 +28,7 @@ const ProfilePage = () => {
       <React.Fragment>
         {User && (
           <Mainsec2
+            uName={User.name}
             email={User.email}
             phonenumber={User.phoneNumber}
             leetcodeId={User.leetcodeId}

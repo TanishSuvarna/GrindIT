@@ -6,7 +6,14 @@ import axios from "axios";
 
 import profilelogo from "../utils/Images/profile_login.png";
 
-const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId,codeNinjaId }) => {
+const Mainsec2 = ({
+  uName,
+  email,
+  phonenumber,
+  leetcodeId,
+  hackerRankId,
+  codeNinjaId,
+}) => {
   const [questions, setquestions] = useState();
   let id = localStorage.getItem("userId");
   const fetchDetails = async () => {
@@ -153,7 +160,7 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId,codeNinjaId }) 
         <div className="profile_div">
           <div className="profile_box">
             <img className="profile_img" src={profilelogo} alt="" />
-            <label htmlFor="">{localStorage.getItem("Name")}</label>
+            <label htmlFor="">{uName}</label>
           </div>
 
           <div className="black-line"></div>
@@ -206,7 +213,7 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId,codeNinjaId }) 
             {localStorage.getItem("codeforcesId") &&
               localStorage.getItem("codeforcesId") !== "null" && (
                 <div className="profile_stat_boxes">
-                  <div className="profile_box_img hacker_img"></div>
+                  <div className="profile_box_img codeforces_img"></div>
                   <p>
                     CodeForces Id{" "}
                     <span>{localStorage.getItem("codeforcesId")}</span>
@@ -215,7 +222,7 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId,codeNinjaId }) 
               )}
             {localStorage.getItem("codeData") && (
               <div className="profile_stat_boxes">
-                <div className="profile_box_img hacker_img"></div>
+                <div className="profile_box_img codeforces_img"></div>
                 <p>
                   CodeForces Rating
                   <span>
@@ -228,7 +235,7 @@ const Mainsec2 = ({ email, phonenumber, leetcodeId, hackerRankId,codeNinjaId }) 
 
             {localStorage.getItem("codeData") && (
               <div className="profile_stat_boxes">
-                <div className="profile_box_img hacker_img"></div>
+                <div className="profile_box_img codeforces_img"></div>
                 <p>
                   CodeForces Rank
                   <span>

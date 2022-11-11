@@ -13,7 +13,7 @@ const LoaderScreen = ({ setisLoading }) => {
     setTimeout(() => {
       setLoading(false);
       setisLoading(false);
-    }, 2000);
+    }, 3000);
   });
 
   return (

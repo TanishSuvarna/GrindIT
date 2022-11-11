@@ -60,6 +60,7 @@
     flex-direction: column;
     width: 100%;
     height: 200px;
+    
     padding-left: 20px;
     color: rgb(136, 136, 136);
     justify-content: space-between;
@@ -226,6 +227,7 @@
 
   .profile_stat_boxes{
     display: flex;
+    padding-bottom: 20px;
   }
 
   .profile_box_img{
@@ -265,3 +267,8 @@
     
   }
 
+.codeforces_img{
+    background-image: url(../utils/Images/code-forces.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+}
