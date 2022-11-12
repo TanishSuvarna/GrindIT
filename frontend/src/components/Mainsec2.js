@@ -270,7 +270,7 @@ const Mainsec2 = ({
                 </div>
               </div>
             ) : (
-              <div className="status_div">
+              <div className="status_div_in">
                 <p>Enter Leet Code ID</p>
                 <form onSubmit={handleSubmit}>
                   <input
@@ -303,7 +303,7 @@ const Mainsec2 = ({
                 </div>
               </div>
             ) : (
-              <div className="status_div">
+              <div className="status_div_in">
                 <p>Enter Hackerrank ID</p>
                 <form onSubmit={handleSubmit2}>
                   <input
@@ -340,7 +340,7 @@ const Mainsec2 = ({
                 </div>
               </div>
             ) : (
-              <div className="status_div">
+              <div className="status_div_in">
                 <p>Enter CodeForces ID</p>
                 <form onSubmit={handleSubmit3}>
                   <input

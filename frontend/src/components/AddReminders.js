@@ -108,13 +108,26 @@ const AddRemider = ({ setisCrossed, reminders, setreminders }) => {
                   value={inputs.time}
                 />
                 <label htmlFor="">Topic</label>
-                <input
+                <select
                   name="topic"
                   onChange={handleChange}
                   value={inputs.topic}
                   type="text"
                   placeholder="Enter a topic "
-                />
+                >
+                  <option value="hash-table">HashTable</option>
+                  <option value="array">Array</option>
+                  <option value="string">Strings</option>
+                  <option value="dyanamic-programming">Dynamic Programming</option>
+                  <option value="sorting">Sorting</option>
+                  <option value="greedy">Greedy</option>
+                  <option value="binary-search">BinarySearch</option>
+                  <option value="binary-tree">Binary Tree</option>
+                  <option value="two-pointers">Two Pointer</option>
+                  <option value="prefix-sum">Prefix Sum</option>
+                  <option value="stack">Stack</option>
+                </select>
+                
                 <div className="add_reminder_btn_div">
                   <button disabled={!isDisabled}>Add reminder</button>
                 </div>
