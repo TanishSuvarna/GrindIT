@@ -32,18 +32,10 @@ export const addBlog = async (req,res,next)=>{
     }
     const newBlog = new blogs({title,description,ourUser,userComments:[]});
         try{
-            const session = await mongoose.startSession();
-            try{
-            session.startTransaction();
-             newBlog.save({session});
-            existingUser.userBlog.push(newBlog);
-             existingUser.save({session});
            
-        }catch(err){
-            console.log(err);
-            await session.abortTransaction();
-        }
-            await session.commitTransaction();
+             await newBlog.save();
+             existingUser.userBlog.push(newBlog);
+             await existingUser.save();
         }catch(err){
             return res.status(400).json({message:err});
         }

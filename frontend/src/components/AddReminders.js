@@ -1,12 +1,10 @@
 import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import "../css/AddReminder.css";
 
 const AddRemider = ({ setisCrossed, reminders, setreminders }) => {
-  const navigate = useNavigate();
   const [isDisabled, setisDisabled] = useState(false);
   const [inputs, setinputs] = useState({
     title: "",

@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
 import reminder from "../models/reminder";
 import user from "../models/user";
-import { LocalStorage } from "node-localstorage";
-import localStorage from "localStorage";
-import nodemailer from "nodemailer";
-import { request, GraphQLClient, gql } from "graphql-request";
+import { GraphQLClient, gql } from "graphql-request";
+import { handler } from "../aws/reminderScheduler";
 
 const query = gql`
   query problemsetQuestionList(
@@ -61,109 +59,109 @@ const getData = async (diff, tag) => {
   });
 };
 
-var transporter = nodemailer.createTransport({
-  service: "gmail",
+// var transporter = nodemailer.createTransport({
+//   service: "gmail",
 
-  auth: {
-    user: "sudocode1234@gmail.com",
-    pass: "fjdbltfeowkgpppf",
-  },
-  tls: { rejectUnauthorized: false },
-});
-let isRemindedToday = false;
-setInterval(() => {
-  reminder.find({}, async (err, reminderList) => {
-    if (err) {
-      console.log(err);
-    }
-    if (reminderList) {
-      const no_of_reminders = reminderList.length;
+//   auth: {
+//     user: "sudocode1234@gmail.com",
+//     pass: "fjdbltfeowkgpppf",
+//   },
+//   tls: { rejectUnauthorized: false },
+// });
+// let isRemindedToday = false;
+// setInterval(() => {
+//   reminder.find({}, async (err, reminderList) => {
+//     if (err) {
+//       console.log(err);
+//     }
+//     if (reminderList) {
+//       const no_of_reminders = reminderList.length;
 
-      reminderList.forEach(async (element) => {
-        const id = element.ourUser;
-        let currentUser;
-        try {
-          currentUser = await user.findById(id);
-        } catch (err) {
-          return console.log(err);
-        }
-        let arr = element.time.split(":");
+//       reminderList.forEach(async (element) => {
+//         const id = element.ourUser;
+//         let currentUser;
+//         try {
+//           currentUser = await user.findById(id);
+//         } catch (err) {
+//           return console.log(err);
+//         }
+//         let arr = element.time.split(":");
 
-        let hr = parseInt(arr[0]);
-        let min = parseInt(arr[1]);
+//         let hr = parseInt(arr[0]);
+//         let min = parseInt(arr[1]);
 
-        let d = new Date();
-        let h = d.getHours();
-        let m = d.getMinutes();
-        let s = d.getSeconds();
+//         let d = new Date();
+//         let h = d.getHours();
+//         let m = d.getMinutes();
+//         let s = d.getSeconds();
 
-        if (h === 0 && m === 0) {
-          try {
-            await user.findByIdAndUpdate(id, { isRemindedToday: false });
-          } catch (err) {
-            console.log(err);
-          }
-        } else if (
-          hr - h == 0 &&
-          min - m == 0 &&
-          !currentUser.isRemindedToday
-        ) {
-          const questions = await getData(element.difficulty, element.topic);
-          while (currentUser.todayQuestions.length > 0) {
-            currentUser.todayQuestions.pop();
-          }
-          let arr = [];
-          for (let i = 0; i < element.noofques; i++) {
-            let x = Math.random() * (questions.length - 1);
-            let q = questions[Math.floor(x)];
+//         if (h === 0 && m === 0) {
+//           try {
+//             await user.findByIdAndUpdate(id, { isRemindedToday: false });
+//           } catch (err) {
+//             console.log(err);
+//           }
+//         } else if (
+//           hr - h == 0 &&
+//           min - m == 0 &&
+//           !currentUser.isRemindedToday
+//         ) {
+//           const questions = await getData(element.difficulty, element.topic);
+//           while (currentUser.todayQuestions.length > 0) {
+//             currentUser.todayQuestions.pop();
+//           }
+//           let arr = [];
+//           for (let i = 0; i < element.noofques; i++) {
+//             let x = Math.random() * (questions.length - 1);
+//             let q = questions[Math.floor(x)];
 
-            console.log(q);
-            arr.push(`http://leetcode.com/problems/${q} ` + "\n");
-            console.log(arr.slice(-1));
+//             console.log(q);
+//             arr.push(`http://leetcode.com/problems/${q} ` + "\n");
+//             console.log(arr.slice(-1));
 
-            currentUser.todayQuestions.push(
-              `http://leetcode.com/problems/${q}`
-            );
-            await currentUser.save();
-          }
+//             currentUser.todayQuestions.push(
+//               `http://leetcode.com/problems/${q}`
+//             );
+//             await currentUser.save();
+//           }
 
-          console.log(currentUser.isRemindedToday);
-          console.log(currentUser);
-          var mailOptions = {
-            from: "sudocode1234@gmail.com",
-            to: `${currentUser.email}`,
-            subject: `${element.noofques}`,
-            text: `${arr}`,
-          };
-          transporter.sendMail(mailOptions, function (err, info) {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log("Email sent: " + info.response);
-            }
-          });
-          console.log(
-            currentUser.email +
-              "" +
-              element.noofques +
-              "" +
-              element.difficulty +
-              "" +
-              element.topic
-          );
-          try {
-            await user.findByIdAndUpdate(id, { isRemindedToday: true });
-          } catch (err) {
-            console.log(err);
-          }
+//           console.log(currentUser.isRemindedToday);
+//           console.log(currentUser);
+//           var mailOptions = {
+//             from: "sudocode1234@gmail.com",
+//             to: `${currentUser.email}`,
+//             subject: `${element.noofques}`,
+//             text: `${arr}`,
+//           };
+//           transporter.sendMail(mailOptions, function (err, info) {
+//             if (err) {
+//               console.log(err);
+//             } else {
+//               console.log("Email sent: " + info.response);
+//             }
+//           });
+//           console.log(
+//             currentUser.email +
+//               "" +
+//               element.noofques +
+//               "" +
+//               element.difficulty +
+//               "" +
+//               element.topic
+//           );
+//           try {
+//             await user.findByIdAndUpdate(id, { isRemindedToday: true });
+//           } catch (err) {
+//             console.log(err);
+//           }
 
-          console.log(currentUser.isRemindedToday);
-          console.log("reminder");
-        }
-      });
-    }
-  });
-}, 2000);
+//           console.log(currentUser.isRemindedToday);
+//           console.log("reminder");
+//         }
+//       });
+//     }
+//   });
+// }, 2000);
 
 export const getAllReminders = async (req, res, next) => {
   let reminders;
@@ -200,17 +198,16 @@ export const addReminder = async (req, res, next) => {
     ourUser,
   });
   try {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    Reminder.save(session);
+    await handler(Reminder);
+    await Reminder.save();
     existingUser.reminders.push(Reminder);
-    existingUser.save(session);
-    await session.commitTransaction();
+    await existingUser.save();
+    return res.status(200).json({ Reminder });
   } catch (err) {
-    console.log(err);
+    console.log(err)
     return res.status(500).json({ message: err });
   }
-  return res.status(200).json({ Reminder });
+ 
 };
 
 export const updateReminder = async (req, res, next) => {
@@ -255,10 +252,8 @@ export const deleteReminder = async (req, res, next) => {
   let Reminder;
   try {
     Reminder = await reminder.findByIdAndRemove(id).populate("ourUser");
-    console.log(Reminder);
     await Reminder.ourUser.reminders.pull(Reminder);
     await Reminder.ourUser.save();
-    console.log(Reminder);
   } catch (err) {
     console.log(err);
   }

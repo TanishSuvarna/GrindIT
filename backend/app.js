@@ -5,11 +5,12 @@ import router from "./routes/user-routes";
 import commentsRouter from "./routes/comments-routes";
 import reminderRouter from "./routes/reminder-routes";
 import cors from "cors";
-mongoose.connect("mongodb://127.0.0.1:27017/discuss", {
+import dotenv from 'dotenv'
+dotenv.config();
+mongoose.connect("mongodb+srv://tanish:tanish@cluster0.ujzpwdo.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 const app = express();
 app.use(cors());
 app.use(express.json());
