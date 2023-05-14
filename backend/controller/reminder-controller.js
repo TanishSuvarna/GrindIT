@@ -1,167 +1,13 @@
 import mongoose from "mongoose";
 import reminder from "../models/reminder";
 import user from "../models/user";
-import { GraphQLClient, gql } from "graphql-request";
 import { handler } from "../aws/reminderScheduler";
-
-const query = gql`
-  query problemsetQuestionList(
-    $categorySlug: String
-    $limit: Int
-    $skip: Int
-    $filters: QuestionListFilterInput
-  ) {
-    problemsetQuestionList: questionList(
-      categorySlug: $categorySlug
-      limit: $limit
-      skip: $skip
-      filters: $filters
-    ) {
-      total: totalNum
-      questions: data {
-        acRate
-        difficulty
-        freqBar
-        frontendQuestionId: questionFrontendId
-        isFavor
-        paidOnly: isPaidOnly
-        status
-        title
-        titleSlug
-        topicTags {
-          name
-          id
-          slug
-        }
-        hasSolution
-        hasVideoSolution
-      }
-    }
-  }
-`;
-
-const getData = async (diff, tag) => {
-  const graphQLClient = new GraphQLClient("https://leetcode.com/graphql%27");
-  const results = await graphQLClient
-    .request(query, {
-      categorySlug: "",
-      skip: 0,
-
-      filters: {
-        difficulty: `${diff}`,
-        tags: [`${tag}`],
-      },
-    })
-    .catch((err) => console.log(err));
-
-  return results.problemsetQuestionList.questions.map((question) => {
-    return question.titleSlug;
-  });
-};
-
-// var transporter = nodemailer.createTransport({
-//   service: "gmail",
-
-//   auth: {
-//     user: "sudocode1234@gmail.com",
-//     pass: "fjdbltfeowkgpppf",
-//   },
-//   tls: { rejectUnauthorized: false },
-// });
-// let isRemindedToday = false;
-// setInterval(() => {
-//   reminder.find({}, async (err, reminderList) => {
-//     if (err) {
-//       console.log(err);
-//     }
-//     if (reminderList) {
-//       const no_of_reminders = reminderList.length;
-
-//       reminderList.forEach(async (element) => {
-//         const id = element.ourUser;
-//         let currentUser;
-//         try {
-//           currentUser = await user.findById(id);
-//         } catch (err) {
-//           return console.log(err);
-//         }
-//         let arr = element.time.split(":");
-
-//         let hr = parseInt(arr[0]);
-//         let min = parseInt(arr[1]);
-
-//         let d = new Date();
-//         let h = d.getHours();
-//         let m = d.getMinutes();
-//         let s = d.getSeconds();
-
-//         if (h === 0 && m === 0) {
-//           try {
-//             await user.findByIdAndUpdate(id, { isRemindedToday: false });
-//           } catch (err) {
-//             console.log(err);
-//           }
-//         } else if (
-//           hr - h == 0 &&
-//           min - m == 0 &&
-//           !currentUser.isRemindedToday
-//         ) {
-//           const questions = await getData(element.difficulty, element.topic);
-//           while (currentUser.todayQuestions.length > 0) {
-//             currentUser.todayQuestions.pop();
-//           }
-//           let arr = [];
-//           for (let i = 0; i < element.noofques; i++) {
-//             let x = Math.random() * (questions.length - 1);
-//             let q = questions[Math.floor(x)];
-
-//             console.log(q);
-//             arr.push(`http://leetcode.com/problems/${q} ` + "\n");
-//             console.log(arr.slice(-1));
-
-//             currentUser.todayQuestions.push(
-//               `http://leetcode.com/problems/${q}`
-//             );
-//             await currentUser.save();
-//           }
-
-//           console.log(currentUser.isRemindedToday);
-//           console.log(currentUser);
-//           var mailOptions = {
-//             from: "sudocode1234@gmail.com",
-//             to: `${currentUser.email}`,
-//             subject: `${element.noofques}`,
-//             text: `${arr}`,
-//           };
-//           transporter.sendMail(mailOptions, function (err, info) {
-//             if (err) {
-//               console.log(err);
-//             } else {
-//               console.log("Email sent: " + info.response);
-//             }
-//           });
-//           console.log(
-//             currentUser.email +
-//               "" +
-//               element.noofques +
-//               "" +
-//               element.difficulty +
-//               "" +
-//               element.topic
-//           );
-//           try {
-//             await user.findByIdAndUpdate(id, { isRemindedToday: true });
-//           } catch (err) {
-//             console.log(err);
-//           }
-
-//           console.log(currentUser.isRemindedToday);
-//           console.log("reminder");
-//         }
-//       });
-//     }
-//   });
-// }, 2000);
+import {
+  EventBridgeClient,
+  DeleteRuleCommand,
+  ListTargetsByRuleCommand,
+  RemoveTargetsCommand,
+} from "@aws-sdk/client-eventbridge"; // ES Modules import
 
 export const getAllReminders = async (req, res, next) => {
   let reminders;
@@ -189,25 +35,24 @@ export const addReminder = async (req, res, next) => {
     return res.status(400).json({ message: "Unable to find user by this id" });
   }
 
-  const Reminder = new reminder({
-    title,
-    noofques,
-    difficulty,
-    topic,
-    time,
-    ourUser,
-  });
   try {
-    await handler(Reminder);
+    const rem = await handler({
+      title,
+      noofques,
+      difficulty,
+      topic,
+      time,
+      ourUser,
+    });
+    const Reminder = new reminder(rem);
     await Reminder.save();
     existingUser.reminders.push(Reminder);
     await existingUser.save();
     return res.status(200).json({ Reminder });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res.status(500).json({ message: err });
   }
- 
 };
 
 export const updateReminder = async (req, res, next) => {
@@ -223,6 +68,14 @@ export const updateReminder = async (req, res, next) => {
       topic,
       time,
     });
+    handler({title,
+      noofques,
+      difficulty,
+      ourUser : Reminder.ourUser,
+      topic,
+      time,
+      ruleName : Reminder.ruleName
+    })
   } catch (err) {
     return console.log(err);
   }
@@ -252,6 +105,34 @@ export const deleteReminder = async (req, res, next) => {
   let Reminder;
   try {
     Reminder = await reminder.findByIdAndRemove(id).populate("ourUser");
+    const config = {
+      apiVersion: "2015-10-07",
+      region: process.env.region,
+      credentials: {
+        accessKeyId: process.env.accessKey,
+        secretAccessKey: process.env.secretKey,
+      },
+    };
+    const client = new EventBridgeClient(config);
+    const command1 = new ListTargetsByRuleCommand({ Rule: Reminder.ruleName });
+
+    const allDetails = await client.send(command1);
+    const targets = [...allDetails.Targets];
+    const Ids = targets.map((id) => id.Id);
+    const removeTargetsParams = {
+      Ids: Ids,
+      Rule: Reminder.ruleName,
+    };
+    const removeTargetsCommand = new RemoveTargetsCommand(removeTargetsParams);
+    const removeTargetsResult = await client.send(removeTargetsCommand);
+    console.log(removeTargetsResult);
+    const input = {
+      // DeleteRuleRequest
+      Name: Reminder.ruleName, // required
+      Force: true || false,
+    };
+    const command2 = new DeleteRuleCommand(input);
+    const response = await client.send(command2);
     await Reminder.ourUser.reminders.pull(Reminder);
     await Reminder.ourUser.save();
   } catch (err) {
