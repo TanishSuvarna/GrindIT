@@ -7,7 +7,7 @@ import reminderRouter from "./routes/reminder-routes";
 import cors from "cors";
 import dotenv from 'dotenv'
 dotenv.config();
-mongoose.connect("mongodb+srv://tanish:tanish@cluster0.ujzpwdo.mongodb.net/?retryWrites=true&w=majority", {
+mongoose.connect("URI", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
